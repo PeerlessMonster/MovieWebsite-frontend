@@ -1,19 +1,33 @@
-import Button from "@mui/material/Button"
+import { Outlet } from "react-router-dom"
+import { Layout } from "antd"
+import HeaderBar from "./compenents/HeaderBar"
+const { Header, Content, Footer } = Layout
 
-function App() {
-  function testServer() {
-    fetch("http://localhost:8080", {
-        method: "GET",
-    }).then((res) => res.text())
-    .then((data) => alert(data))
-  }
+export default function App() {
+    
 
-  return (
-    <Button
-      variant="contained"
-      onClick={() => testServer()}
-    >Hello, world!</Button>
-  )
+    return (
+        <Layout className="layout">
+            <Header
+                style={{
+                    display: "flex",
+                    alignItems: "center"
+                }}
+            >
+                <HeaderBar />
+            </Header>
+            
+            <Content>
+                <Outlet />
+            </Content>
+
+            <Footer
+                style={{
+                    textAlign: "center"
+                }}
+            >
+                Ant Design ©2023 Created by Ant UED
+            </Footer>
+        </Layout>
+    )
 }
-
-export default App
