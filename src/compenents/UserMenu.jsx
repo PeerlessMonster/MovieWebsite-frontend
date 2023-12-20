@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Avatar, Dropdown, Popconfirm } from "antd";
+
 import LoginModal from "./LoginModal";
 
 export default function UserMenu() {
@@ -17,7 +18,7 @@ export default function UserMenu() {
           key: "info",
           label: (
             <a target="_blank" rel="noopener noreferrer" href="./user">
-              账号信息
+              个人中心
             </a>
           ),
         },
@@ -42,6 +43,11 @@ export default function UserMenu() {
           ) : (<></>)
         },
       ];
+
+    const avatarStyle = {
+      backgroundColor: "#9cacc8",
+      color: "#1677ff",
+    }
     
     return logined ? (
         <Dropdown
@@ -53,10 +59,8 @@ export default function UserMenu() {
         >
           <div>
             <Avatar
-              style={{
-                backgroundColor: "#fde3cf",
-                color: "#f56a00",
-              }}
+              size="large"
+              style={avatarStyle}
             >
               登录
             </Avatar>
@@ -65,17 +69,15 @@ export default function UserMenu() {
     ) : (
         <div>
             <Avatar
-              style={{
-                backgroundColor: "#fde3cf",
-                color: "#f56a00",
-              }}
+              size="large"
+              style={avatarStyle}
               onClick={() => setModalOpen(true)}
             >
               登录
             </Avatar>
             <LoginModal
-                modalOpen={modalOpen}
-                closeModal={() => setModalOpen(false)}
+                loginModalOpen={modalOpen}
+                closeLoginModal={() => setModalOpen(false)}
             />
           </div>
     )

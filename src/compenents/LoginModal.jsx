@@ -1,42 +1,50 @@
+import { useState } from "react";
 import { Button, Checkbox, Form, Input, Modal } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+const { useWatch } = Form;
 
-export default function LoginModal({ modalOpen, closeModal }) {
-  const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
+import RegisterModal from "./RegisterModal"
+
+export default function LoginModal({ loginModalOpen, closeLoginModal }) {
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
+
+  const [form] = Form.useForm();
+  const resetAndCloseModal = () => {
+    closeLoginModal()
+    form.resetFields()
+  }
+
+  const submitLogin = () => {
+    const formData = useWatch([], form)
+  }
 
   return (
     <Modal
-      title="登录"
+      style={{
+        maxWidth: "25em",
+        textAlign: "center"
+      }}
+      title="登录账号，解锁更多精彩~"
       centered
-      open={modalOpen}
+      open={loginModalOpen}
       //   onOk={closeModal}
-      onCancel={closeModal}
+      onCancel={resetAndCloseModal}
       footer={null}
     >
       <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
+        name="login"
         style={{
-          maxWidth: 600,
+          marginTop: "5vh",
+          maxWidth: "23em",
+          textAlign: "start"
         }}
+        form={form}
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
+        onFinish={submitLogin}
       >
         <Form.Item
-          label="用户名"
           name="username"
           rules={[
             {
@@ -45,11 +53,15 @@ export default function LoginModal({ modalOpen, closeModal }) {
             },
           ]}
         >
-          <Input />
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            placeholder="邮箱"
+          />
         </Form.Item>
-
         <Form.Item
-          label="密码"
+          style={{
+            marginTop: "3vh",
+          }}
           name="password"
           rules={[
             {
@@ -58,38 +70,50 @@ export default function LoginModal({ modalOpen, closeModal }) {
             },
           ]}
         >
-          <Input.Password />
+          <Input
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            type="password"
+            placeholder="密码"
+          />
         </Form.Item>
-
-        <Form.Item
-          name="remember"
-          valuePropName="checked"
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
+        <Form.Item name="remember" valuePropName="checked" noStyle>
           <Checkbox>记住我</Checkbox>
         </Form.Item>
 
         <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
+          style={{
+            marginTop: "3vh",
           }}
         >
-          <Button htmlType="submit">
-            注册
-          </Button>
           <Button
             style={{
-              marginLeft: "1vw",
+              width: "100%",
             }}
             type="primary"
             htmlType="submit"
           >
             登录
           </Button>
+          <div
+            style={{
+              textAlign: "end"
+            }}
+          >
+            还没有账号？
+            <a href="" onClick={(e) => {
+                e.preventDefault()
+                setRegisterModalOpen(true)
+            }}>
+              现在注册
+            </a>
+            ！
+
+            <RegisterModal
+                modalOpen={registerModalOpen}
+                closeModal={() => setRegisterModalOpen(false)}
+            />
+
+          </div>
         </Form.Item>
       </Form>
     </Modal>

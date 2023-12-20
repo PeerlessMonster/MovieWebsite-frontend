@@ -1,5 +1,5 @@
 import { Menu } from "antd";
-import demoLogo from "../assets/react.svg";
+import logo from "../assets/video_icon.png";
 import UserMenu from "./UserMenu";
 
 export default function HeaderBar() {
@@ -29,20 +29,21 @@ export default function HeaderBar() {
 
   return (
     <>
-      <div
-        style={{
-          marginRight: "1vw",
-        }}
-      >
+      <div>
         <img
-          src={demoLogo}
+          src={logo}
           alt="logo"
           style={{
+            // height: "",
+            height: "4em",
             verticalAlign: "middle",
           }}
         />
       </div>
       <Menu
+        style={{
+          marginLeft: "1vw"
+        }}
         theme="dark"
         mode="horizontal"
         defaultSelectedKeys={[currentPage]}
