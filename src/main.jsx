@@ -21,13 +21,13 @@ const router = createBrowserRouter([
         element: <JumpToCategoryPage />
       },
       {
-        path: "/category",
-        element: <CategoryPage />
+        path: "/rank",
+        element: <RankPage />
       },
 
       {
-        path: "/rank",
-        element: <RankPage />
+        path: "/category",
+        element: <CategoryPage />
       },
 
       {

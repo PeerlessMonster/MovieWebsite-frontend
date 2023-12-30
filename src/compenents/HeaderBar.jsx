@@ -5,13 +5,13 @@ import UserMenu from "./UserMenu";
 export default function HeaderBar() {
   const pages = [
     {
-      label: "全部影片",
-      key: "category",
-    },
-    {
       label: "影片排行",
       key: "rank",
     },
+    {
+      label: "全部影片",
+      key: "category",
+    }
   ];
   const currentPage = (function () {
     const splitUrl = location.href.split("/");

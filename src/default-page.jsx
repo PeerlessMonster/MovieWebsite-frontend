@@ -1,7 +1,7 @@
 export default function JumpToCategoryPage() {
     return (
         <script type="text/javascript">{
-            window.location.href = "./category"
+            window.location.href = "./rank"
             
         }</script>
     )

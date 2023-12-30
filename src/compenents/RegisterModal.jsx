@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
-import { Button, Form, Input, Modal } from "antd";
+import { Alert, Button, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form
 
 export default function RegisterModal({ modalOpen, closeModal }) {
   const [form] = Form.useForm();
   const resetAndCloseForm = () => {
     closeModal()
+    setErrorMessage("")
     form.resetFields()
   }
 
-  const formData = useWatch([], form)
+  const [errorMessage, setErrorMessage] = useState("")
 
+  const formData = useWatch([], form)
   const [submittable, setSubmittable] = useState(false)
   useEffect(() => {
     form
@@ -27,8 +29,27 @@ export default function RegisterModal({ modalOpen, closeModal }) {
       );
   }, [formData])
 
-  const submitRegister = (values) => {
-    console.log(values);
+  const submitRegister = async () => {
+    const response = await fetch("http://localhost:8080/register", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    })
+
+    if (response.ok) {
+      resetAndCloseForm()
+      message.success("注册成功")
+
+    } else {
+      const data = await response.json()
+      if (response.status == 401) {
+        setErrorMessage(data.message)
+        setSubmittable(false)
+      }
+    }
   }
 
   return (
@@ -44,6 +65,17 @@ export default function RegisterModal({ modalOpen, closeModal }) {
       onCancel={resetAndCloseForm}
       footer={null}
     >
+      {errorMessage != "" ?
+      (<Alert
+        style={{
+          marginTop: "4vh",
+          textAlign: "start"
+        }}
+        message={errorMessage}
+        type="error"
+        showIcon
+      />) : null}
+
       <Form
         name="register"
         style={{
@@ -89,6 +121,14 @@ export default function RegisterModal({ modalOpen, closeModal }) {
               required: true,
               message: "请设置密码！"
             },
+            () => ({
+              validator(_, value) {
+                if (!value || value.length > 6) {
+                  return Promise.resolve()
+                }
+                return Promise.reject(new Error("密码不能少于6位！"))
+              }
+            })
           ]}
         >
           <Input.Password />
