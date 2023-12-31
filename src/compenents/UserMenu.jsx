@@ -1,22 +1,17 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { Avatar, Dropdown, Popconfirm, message } from "antd";
 
 import LoginModal from "./LoginModal";
+import getUserInfo from "../utils/user_info";
 
 export default function UserMenu() {
   const [userInfo, setUserInfo] = useState(null)
 
   useEffect(() => {
     const startFetching = async () => {
-      const response = await fetch("http://localhost:8080/user", {
-        method: "GET",
-        credentials: "include"
-      })
-
-      if (response.ok) {
-        const data = await response.json()
-        setUserInfo(data)
-      }
+      const data = await getUserInfo()
+      setUserInfo(data)
     }
 
     let ignore = false
@@ -44,9 +39,13 @@ export default function UserMenu() {
     {
       key: "info",
       label: (
-        <a target="_blank" rel="noopener noreferrer" href="./user">
+        <Link
+          to={`./user`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           个人中心
-        </a>
+        </Link>
       ),
     },
     {

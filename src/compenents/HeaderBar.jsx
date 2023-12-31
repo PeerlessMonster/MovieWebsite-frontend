@@ -1,31 +1,23 @@
 import { Menu } from "antd";
 import logo from "../assets/video_icon.png";
 import UserMenu from "./UserMenu";
+import { Link } from "react-router-dom";
 
 export default function HeaderBar() {
   const pages = [
     {
-      label: "影片排行",
-      key: "rank",
+      label: (
+        <Link to={`./rank`}>影片排行</Link>
+      ),
+      key: "rank"
     },
     {
-      label: "全部影片",
-      key: "category",
+      label: (
+        <Link to={`./category`}>全部影片</Link>
+      ),
+      key: "category"
     }
   ];
-  const currentPage = (function () {
-    const splitUrl = location.href.split("/");
-    const key = splitUrl[splitUrl.length - 1];
-    if (
-      pages.some((page) => {
-        return key == page.key;
-      })
-    ) {
-      return key;
-    } else {
-      return "";
-    }
-  })();
 
   return (
     <>
@@ -34,7 +26,6 @@ export default function HeaderBar() {
           src={logo}
           alt="logo"
           style={{
-            // height: "",
             height: "4em",
             verticalAlign: "middle",
           }}
@@ -46,13 +37,8 @@ export default function HeaderBar() {
         }}
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={[currentPage]}
+        defaultSelectedKeys={["rank"]}
         items={pages}
-        onClick={(e) => {
-          if (e.key != currentPage) {
-            window.location.href = `./${e.key}`;
-          }
-        }}
       ></Menu>
       <div
         style={{
