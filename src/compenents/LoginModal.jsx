@@ -1,32 +1,29 @@
-import { useState } from "react";
-import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
+import { useContext, useState } from "react";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form;
 
+import classes from "./LoginModal.module.css"
 import RegisterModal from "./RegisterModal"
+import { tryLogin } from "../requests/user";
+import { userContext } from "../states/userContext";
 
-export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInfo }) {
+export default function LoginModal({ loginModalOpen, closeLoginModal }) {
   const [registerModalOpen, setRegisterModalOpen] = useState(false);
-
-  const [errorMessage, setErrorMessage] = useState("")
-
+  
   const [form] = Form.useForm();
+  const [errorMessage, setErrorMessage] = useState("")
   const resetAndCloseModal = () => {
     closeLoginModal()
     setErrorMessage("")
     form.resetFields()
   }
 
+  const user = useContext(userContext)
+
   const formData = useWatch([], form)
   const submitLogin = async () => {
-    const response = await fetch("http://localhost:8080/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
+    const response = await tryLogin(formData)
       // .then((response) => {
       //   if (response.ok) {
       //     console.log("success")
@@ -46,7 +43,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInf
     if (response.ok) {
       resetAndCloseModal()
       message.success("登录成功")
-      setUserInfo(data)
+      user.updateInfo(data)
       
     } else {
       if (response.status == 401) {
@@ -57,12 +54,10 @@ export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInf
 
   return (
     <Modal
-      style={{
-        maxWidth: "25em",
-        textAlign: "center"
-      }}
-      title="登录账号，解锁更多精彩~"
       centered
+      className={classes.modalWhole}
+
+      title="登录账号，解锁更多精彩~"
       open={loginModalOpen}
       //   onOk={closeModal}
       onCancel={resetAndCloseModal}
@@ -70,22 +65,17 @@ export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInf
     >
       {errorMessage != "" ?
       (<Alert
-        style={{
-          marginTop: "2vh",
-          textAlign: "start"
-        }}
-        message={errorMessage}
         type="error"
         showIcon
+        className={classes.alertBottomofTitle}
+
+        message={errorMessage}
       />) : null}
 
       <Form
+        className={classes.formBottomofTitle}
+
         name="login"
-        style={{
-          marginTop: "3vh",
-          maxWidth: "23em",
-          textAlign: "start"
-        }}
         form={form}
         initialValues={{
           remember: true,
@@ -102,14 +92,15 @@ export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInf
           ]}
         >
           <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
+            prefix={
+              <UserOutlined className="site-form-item-icon" />
+            }
             placeholder="邮箱"
           />
         </Form.Item>
         <Form.Item
-          style={{
-            marginTop: "3vh",
-          }}
+          className={classes.passwordBottomofUsername}
+          
           name="password"
           rules={[
             {
@@ -119,36 +110,36 @@ export default function LoginModal({ loginModalOpen, closeLoginModal, setUserInf
           ]}
         >
           <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
+            prefix={
+              <LockOutlined className="site-form-item-icon" />
+            }
             type="password"
             placeholder="密码"
           />
         </Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
+        <Form.Item
+          noStyle
+
+          name="remember"
+          valuePropName="checked"
+        >
           <Checkbox>记住我</Checkbox>
         </Form.Item>
 
-        <Form.Item
-          style={{
-            marginTop: "3vh",
-          }}
-        >
+        <Form.Item className={classes.buttonBottomofCheckbox}>
           <Button
-            style={{
-              width: "100%",
-            }}
             type="primary"
+            className={classes.loginButton}
+
             htmlType="submit"
           >
             登录
           </Button>
-          <div
-            style={{
-              textAlign: "end"
-            }}
-          >
+          <div className={classes.registerHref}>
             还没有账号？
-            <a href="" onClick={(e) => {
+            <a
+              href="#"
+              onClick={(e) => {
                 e.preventDefault()
                 setRegisterModalOpen(true)
             }}>

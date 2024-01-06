@@ -1,50 +1,54 @@
+import { Link, useLocation } from "react-router-dom";
 import { Menu } from "antd";
-import logo from "../assets/video_icon.png";
+
+import logoImg from "../assets/video_icon.png";
+import classes from "./HeaderBar.module.css"
 import UserMenu from "./UserMenu";
-import { Link } from "react-router-dom";
 
 export default function HeaderBar() {
   const pages = [
     {
       label: (
-        <Link to={`./rank`}>影片排行</Link>
+        <Link to={`/rank`}>影片排行</Link>
       ),
       key: "rank"
     },
     {
       label: (
-        <Link to={`./category`}>全部影片</Link>
+        <Link to={`/category`}>全部影片</Link>
       ),
       key: "category"
     }
   ];
 
+  const location = useLocation()
+  const nowSelect = (function() {
+    const pathname = location.pathname
+    const path = pathname.substring(1)
+
+    return pages.some((page) => path == page.key)
+      ? path : ""
+  })()  
+
   return (
     <>
       <div>
         <img
-          src={logo}
+          className={classes.logo}
+
+          src={logoImg}
           alt="logo"
-          style={{
-            height: "4em",
-            verticalAlign: "middle",
-          }}
         />
       </div>
       <Menu
-        style={{
-          marginLeft: "1vw"
-        }}
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={["rank"]}
+        className={classes.menuEndofLogo}
+        
+        selectedKeys={[nowSelect]}
         items={pages}
       ></Menu>
-      <div
-        style={{
-          marginLeft: "auto",
-        }}
-      >
+      <div className={classes.avatarEndofMenu}>
         <UserMenu />
       </div>
     </>

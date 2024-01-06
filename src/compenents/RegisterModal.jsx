@@ -2,18 +2,20 @@ import { useState, useEffect } from "react";
 import { Alert, Button, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form
 
+import classes from "./RegisterModal.module.css"
+import { postRegister } from "../requests/user";
+
 export default function RegisterModal({ modalOpen, closeModal }) {
   const [form] = Form.useForm();
+  const [submittable, setSubmittable] = useState(false)
+  const [errorMessage, setErrorMessage] = useState("")
   const resetAndCloseForm = () => {
     closeModal()
     setErrorMessage("")
     form.resetFields()
   }
 
-  const [errorMessage, setErrorMessage] = useState("")
-
   const formData = useWatch([], form)
-  const [submittable, setSubmittable] = useState(false)
   useEffect(() => {
     form
       .validateFields({
@@ -30,15 +32,7 @@ export default function RegisterModal({ modalOpen, closeModal }) {
   }, [formData])
 
   const submitRegister = async () => {
-    const response = await fetch("http://localhost:8080/register", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(formData)
-    })
-
+    const response = await postRegister(formData)
     if (response.ok) {
       resetAndCloseForm()
       message.success("注册成功")
@@ -54,12 +48,10 @@ export default function RegisterModal({ modalOpen, closeModal }) {
 
   return (
     <Modal
-      style={{
-        maxWidth: "37em",
-        textAlign: "center"
-      }}
-      title=""
       centered
+      className={classes.modalWhole}
+    
+      title=""
       open={modalOpen}
       //   onOk={closeModal}
       onCancel={resetAndCloseForm}
@@ -67,23 +59,18 @@ export default function RegisterModal({ modalOpen, closeModal }) {
     >
       {errorMessage != "" ?
       (<Alert
-        style={{
-          marginTop: "4vh",
-          textAlign: "start"
-        }}
-        message={errorMessage}
         type="error"
         showIcon
+        className={classes.alertBottomofTitle}
+
+        message={errorMessage}
       />) : null}
 
       <Form
-        name="register"
-        style={{
-          marginTop: "3vh",
-          maxWidth: "33em",
-          textAlign: "start"
-        }}
         layout="vertical"
+        className={classes.formBottomofTitle}
+
+        name="register"
         form={form}
         onFinish={submitRegister}
         // onFinishFailed={onFinishFailed}
@@ -155,27 +142,19 @@ export default function RegisterModal({ modalOpen, closeModal }) {
           <Input.Password />
         </Form.Item>
 
-        <Form.Item
-          style={{
-            marginTop: "4vh",
-            textAlign: "center"
-          }}
-        >
+        <Form.Item className={classes.buttonsBottomofInputs}>
           <Button
-            style={{
-              width: "47%",
-            }}
+            className={classes.resetButton}
+            
             htmlType="button"
             onClick={() => form.resetFields()}>
             重置
           </Button>
 
           <Button
-            style={{
-              marginLeft: "5%",
-              width: "47%",
-            }}
             type="primary"
+            className={classes.submitButtonEndofReset}
+
             htmlType="submit"
             disabled={!submittable}
           >

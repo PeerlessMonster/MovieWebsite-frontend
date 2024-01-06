@@ -1,0 +1,30 @@
+.modal-whole {
+    max-width: 37em;
+}
+
+.alert-bottomof-title {
+    margin-top: 4vh;
+}
+
+.form-bottomof-title {
+    max-width: 34em;
+    margin-top: 3vh;
+
+    text-align: start;
+}
+
+.buttons-bottomof-inputs {
+    margin-top: 4vh;
+
+    text-align: center;
+}
+
+.reset-button {
+    width: 47%;
+}
+
+.submit-button-endof-reset {
+    margin-left: 5%;
+
+    width: 47%;
+}

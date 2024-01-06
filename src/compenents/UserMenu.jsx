@@ -1,36 +1,24 @@
-import { useEffect, useState } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Dropdown, Popconfirm, message } from "antd";
 
+import classes from "./UserMenu.module.css"
 import LoginModal from "./LoginModal";
-import getUserInfo from "../utils/user_info";
+import { tryLogout } from "../requests/user";
+import { userContext } from "../states/userContext";
 
 export default function UserMenu() {
-  const [userInfo, setUserInfo] = useState(null)
-
-  useEffect(() => {
-    const startFetching = async () => {
-      const data = await getUserInfo()
-      setUserInfo(data)
-    }
-
-    let ignore = false
-    startFetching()
-    return () => {
-      ignore = true
-    }
-  }, [])
+  const user = useContext(userContext)
+  const userInfo = user.info
 
   const logout = async () => {
-    const response = await fetch("http://localhost:8080/logout", {
-      method: "POST",
-      credentials: "include"
-    })
-
+    const response = await tryLogout()
     if (response.ok) {
       message.success("退出成功")
+      // user.updateInfo(null)
+
+      location.href = "/"
     }
-    setUserInfo(null)
   };
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,9 +28,9 @@ export default function UserMenu() {
       key: "info",
       label: (
         <Link
-          to={`./user`}
-          target="_blank"
           rel="noopener noreferrer"
+
+          to={`/user`}
         >
           个人中心
         </Link>
@@ -50,9 +38,10 @@ export default function UserMenu() {
     },
     {
       key: "logout",
-      label: userInfo != null ? (
+      label: (
         <Popconfirm
           placement="topRight"
+
           title=""
           description="你确定要退出登录吗？"
           onConfirm={logout}
@@ -62,33 +51,32 @@ export default function UserMenu() {
         >
           <a
             rel="noopener noreferrer"
+
             href="#"
             onClick={(e) => e.preventDefault()}
           >
             退出登录
           </a>
         </Popconfirm>
-      ) : null,
+      ),
     },
   ];
-
-  const avatarStyle = {
-    backgroundColor: "#9cacc8",
-    color: "#476ba8",
-    fontWeight: "bold"
-  };
-
-  return userInfo != null ? (
+  
+  return userInfo ? (
     <Dropdown
+      placement="bottomRight"
+      arrow
+
       menu={{
         items: menuItems,
       }}
-      placement="bottomRight"
-      arrow
     >
       <div>
-        <Avatar size="large" style={avatarStyle}>{
-          (userInfo.name != "" ? userInfo.name : userInfo.email)
+        <Avatar
+          size="large"
+          className={classes.avatar}
+        >{
+          (userInfo.name != null ? userInfo.name : userInfo.email)
             .substring(0, 4)
         }</Avatar>
       </div>
@@ -97,7 +85,8 @@ export default function UserMenu() {
     <div>
       <Avatar
         size="large"
-        style={avatarStyle}
+        className={classes.avatar}
+
         onClick={() => setModalOpen(true)}
       >
         登录
@@ -105,7 +94,7 @@ export default function UserMenu() {
       <LoginModal
         loginModalOpen={modalOpen}
         closeLoginModal={() => setModalOpen(false)}
-        setUserInfo={setUserInfo}
+        // switchToLogined={() => setIsLogined(true)}
       />
     </div>
   );

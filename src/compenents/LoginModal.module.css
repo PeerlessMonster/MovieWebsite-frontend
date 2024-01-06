@@ -1,0 +1,36 @@
+.modal-whole {
+    max-width: 25em;
+    
+    /* 覆盖组件库样式
+       不推荐使用 */
+    text-align: center !important;
+}
+
+.alert-bottomof-title {
+    margin-top: 2vh;
+
+    text-align: start;
+}
+
+.form-bottomof-title {
+    max-width: 23em;
+    margin-top: 3vh;
+    
+    text-align: start;
+}
+
+.password-bottomof-username {
+    margin-top: 3vh;
+}
+
+.button-bottomof-checkbox {
+    margin-top: 3vh;
+}
+
+.login-button {
+    width: 100%;
+}
+
+.register-href {
+    text-align: end;
+}
