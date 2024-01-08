@@ -6,7 +6,7 @@ import "./index.css";
 import App, { loader as appLoader } from "./App.jsx";
 import ErrorPage from "./error-page.jsx";
 import JumpToRankPage from "./default-page.jsx";
-import RankTab from "./routes/Rank.jsx";
+import RankTab, { loader as rankTabLoader } from "./routes/Rank.jsx";
 import CategoryTab from "./routes/Category.jsx";
 import UserCenterTab from "./routes/UserCenter.jsx";
 
@@ -24,6 +24,7 @@ const router = createBrowserRouter([
       {
         path: "/rank",
         element: <RankTab />,
+        loader: rankTabLoader
       },
 
       {
@@ -33,8 +34,7 @@ const router = createBrowserRouter([
 
       {
         path: "/user",
-        element: <UserCenterTab />,
-        // loader: userLoader
+        element: <UserCenterTab />
       },
     ],
   },

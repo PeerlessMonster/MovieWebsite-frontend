@@ -1,6 +1,6 @@
 import fetchData from "../fetch_config"
 
-const basePath = "user"
+const basePath = "users"
 
 export function postRegister(data) {
     const options = {
@@ -14,7 +14,7 @@ export function postRegister(data) {
 }
 
 export function tryLogin(data) {
-    const path = basePath + "/login"
+    const path = basePath + "/sessions"
     const options = {
         method: "POST",
         headers: {
@@ -26,9 +26,9 @@ export function tryLogin(data) {
 }
 
 export function tryLogout() {
-    const path = basePath + "/logout"
+    const path = basePath + "/sessions"
     const options = {
-        method: "POST"
+        method: "DELETE"
     }
     return fetchData(path, options)
 }

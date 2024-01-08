@@ -1,0 +1,25 @@
+@radius: 10px;
+@borderLineWidth: 5px;
+@borderLineStyle: solid;
+@borderLineColor: white;
+
+.carousel-whole-shadow {
+    box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+    border-radius: @radius;
+}
+
+.carousel-whole-border {
+    border-radius: @radius;
+    border-top: @borderLineWidth @borderLineStyle @borderLineColor;
+    border-left: @borderLineWidth @borderLineStyle @borderLineColor;
+    border-right: @borderLineWidth @borderLineStyle @borderLineColor;
+}
+
+.picture {
+    border-radius: @radius;
+
+    height: 70vh;
+    object-fit: cover;
+    object-position: bottom;
+}
+

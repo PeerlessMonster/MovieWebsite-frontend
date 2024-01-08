@@ -6,6 +6,7 @@ import classes from "./UserMenu.module.css"
 import LoginModal from "./LoginModal";
 import { tryLogout } from "../requests/user";
 import { userContext } from "../states/userContext";
+import { loginModalContext } from "../states/loginModalContext";
 
 export default function UserMenu() {
   const user = useContext(userContext)
@@ -21,7 +22,9 @@ export default function UserMenu() {
     }
   };
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const loginModal = useContext(loginModalContext)
+  // const [modalOpen, setModalOpen] = useState(false)
+  // const [loginModalOpen, openLoginModal, closeLoginModal] = loginModal
 
   const menuItems = [
     {
@@ -87,13 +90,13 @@ export default function UserMenu() {
         size="large"
         className={classes.avatar}
 
-        onClick={() => setModalOpen(true)}
+        onClick={loginModal.open}
       >
         登录
       </Avatar>
       <LoginModal
-        loginModalOpen={modalOpen}
-        closeLoginModal={() => setModalOpen(false)}
+        loginModalOpen={loginModal.opened}
+        closeLoginModal={loginModal.close}
         // switchToLogined={() => setIsLogined(true)}
       />
     </div>

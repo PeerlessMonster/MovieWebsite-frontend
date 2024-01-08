@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:8080/"
+export const baseUrl = "http://localhost:8080/"
 
 export default function fetchData(path, options) {
     const url = baseUrl + path
