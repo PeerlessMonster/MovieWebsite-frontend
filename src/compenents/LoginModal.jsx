@@ -3,7 +3,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form;
 
-import classes from "./LoginModal.module.css"
+import classes from "./LoginModal.module.less"
 import RegisterModal from "./RegisterModal"
 import { tryLogin } from "../requests/user";
 import { userContext } from "../states/userContext";

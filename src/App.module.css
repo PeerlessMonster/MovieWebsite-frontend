@@ -6,8 +6,15 @@
     width: 100%;
     display: flex;
     align-items: center;
+
+    border-bottom: 1px solid black;
+    /* Beautiful CSS box-shadow examples #20
+    https://getcssscan.com/css-box-shadow-examples */
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
 }
 
 .footer {
+    margin-top: 10vh;
+
     text-align: center;
 }

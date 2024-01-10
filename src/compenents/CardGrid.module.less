@@ -1,0 +1,88 @@
+@import "./public.less";
+
+.grid-whole {    
+    border-radius: @borderRadius;
+    padding: 0.9em;
+    /* Beautiful CSS box-shadow examples #5
+    https://getcssscan.com/css-box-shadow-examples */
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.card {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+
+    height: 59.5vh;
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            padding: 0;
+        }
+    }
+
+    :global {
+        .briefintro {
+            opacity: 0;
+        }
+    }
+}
+@cardOnceWidth: 33.33%;// 100% / 3
+
+.unhoveredsmallcard {
+    .card();
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            width: @cardOnceWidth;
+        }
+    }
+}
+
+.unhoveredlargecard {
+    .card();
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            width: @cardOnceWidth * 2;
+        }
+    }
+}
+
+.hover {
+    filter: brightness(50%);
+    &:hover {
+        filter: brightness(100%);
+        transform: scale(1.02);
+
+        :global {
+            .briefintro {
+                opacity: 100%;
+                backdrop-filter: blur(20px);
+                height: 100%;
+
+                @verticalPadding: 15vh;
+                padding-top: @verticalPadding;
+                padding-bottom: @verticalPadding;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+
+                text-align: center;
+                // -webkit-text-stroke: 0.1px black;
+                color: white;
+            }
+        }
+    }
+}
+
+.hoveredsmallcard {
+    .unhoveredsmallcard();
+    .hover();
+}
+
+.hoveredlargecard {
+    .unhoveredlargecard();
+    .hover()
+}

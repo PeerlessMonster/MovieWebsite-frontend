@@ -9,13 +9,13 @@ export default function HeaderBar() {
   const pages = [
     {
       label: (
-        <Link to={`/rank`}>影片排行</Link>
+        <Link to={`/rank`}>为你推荐</Link>
       ),
       key: "rank"
     },
     {
       label: (
-        <Link to={`/category`}>全部影片</Link>
+        <Link to={`/category`}>全部分类</Link>
       ),
       key: "category"
     }

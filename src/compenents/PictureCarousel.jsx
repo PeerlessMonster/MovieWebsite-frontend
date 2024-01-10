@@ -1,18 +1,10 @@
 import { Carousel } from "antd";
 
 import classes from "./PictureCarousel.module.less";
-import { genMovieLargeImgUrl } from "../requests/img";
-import { useContext } from "react";
-import { userContext } from "../states/userContext";
-import { Link } from "react-router-dom";
-import { loginModalContext } from "../states/loginModalContext";
+import { genMovieLargeImgUrl } from "../requests/image";
+import JumpToDetailOrOpenLoginModalBox from "./JumpToDetailOrOpenLoginModalBox";
 
 export default function PictureCarousel({ data }) {
-  const user = useContext(userContext)
-  const userInfo = user.info
-
-  const loginModal = useContext(loginModalContext)
-
   return (
     <div className={classes.carouselWholeShadow}>
       <Carousel
@@ -20,26 +12,19 @@ export default function PictureCarousel({ data }) {
         effect="fade"
         autoplay
       >
-        {data.map((movie) => userInfo ? (
-          <Link
-            key={movie.id}
-            to={`/movie/${movie.movieId}`}>
+        {data.map((item, index) => (
+          <JumpToDetailOrOpenLoginModalBox
+            key={index}
+            urlParam={item.id}
+          >
             <img
               className={classes.picture}
 
-              alt={movie.name}
-              src={genMovieLargeImgUrl(movie.movieId)}
+              key={index}
+              alt={item.name}
+              src={genMovieLargeImgUrl(item.id)}
             />
-          </Link>
-        ) : (
-          <img
-            className={classes.picture}
-
-            key={movie.id}
-            alt={movie.name}
-            src={genMovieLargeImgUrl(movie.movieId)}
-            onClick={loginModal.open}
-          />
+          </JumpToDetailOrOpenLoginModalBox>
         ))}
       </Carousel>
     </div>

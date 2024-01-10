@@ -1,9 +1,12 @@
 .modal-whole {
     max-width: 25em;
     
-    /* 覆盖组件库样式
-       不推荐使用 */
-    text-align: center !important;
+    /* 覆盖组件库样式 */
+    :global {
+        .ant-modal-content {
+            text-align: center;
+        }
+    }
 }
 
 .alert-bottomof-title {
