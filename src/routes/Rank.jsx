@@ -6,8 +6,11 @@ import { getCarousel, getLatest, getPopular, getTopScore } from "../requests/mov
 import CardListHorizontal from "../compenents/CardListHorizontal";
 import ListVerticalCard from "../compenents/ListVerticalCard";
 import CardGrid from "../compenents/CardGrid";
+import { pathToTitle } from "./route_config";
 
 export async function loader() {
+    document.title = pathToTitle.get("rank")
+
     let carouselMovies = null
     let response = await getCarousel()
     if (response.ok) {

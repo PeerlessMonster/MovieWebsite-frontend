@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { IdcardTwoTone, LockOutlined, LockTwoTone, UserOutlined } from "@ant-design/icons";
 import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form;
 
@@ -93,7 +93,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
         >
           <Input
             prefix={
-              <UserOutlined className="site-form-item-icon" />
+              <IdcardTwoTone className="site-form-item-icon" />
             }
             placeholder="邮箱"
           />
@@ -111,7 +111,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
         >
           <Input
             prefix={
-              <LockOutlined className="site-form-item-icon" />
+              <LockTwoTone className="site-form-item-icon" />
             }
             type="password"
             placeholder="密码"

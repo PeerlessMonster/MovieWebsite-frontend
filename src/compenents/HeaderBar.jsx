@@ -4,18 +4,19 @@ import { Menu } from "antd";
 import logoImg from "../assets/video_icon.png";
 import classes from "./HeaderBar.module.css"
 import UserMenu from "./UserMenu";
+import { pathToTitle } from "../routes/route_config";
 
 export default function HeaderBar() {
   const pages = [
     {
       label: (
-        <Link to={`/rank`}>为你推荐</Link>
+        <Link to={`/rank`}>{pathToTitle.get("rank")}</Link>
       ),
       key: "rank"
     },
     {
       label: (
-        <Link to={`/category`}>全部分类</Link>
+        <Link to={`/category`}>{pathToTitle.get("category")}</Link>
       ),
       key: "category"
     }

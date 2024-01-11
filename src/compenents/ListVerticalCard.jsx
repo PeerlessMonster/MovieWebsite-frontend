@@ -13,7 +13,7 @@ export default function ListVerticalCard({ data }) {
       itemLayout="horizontal"
       dataSource={data}
       renderItem={(item) => (
-        <JumpToDetailOrOpenLoginModalBox>
+        <JumpToDetailOrOpenLoginModalBox urlParam={item.id}>
           <List.Item>
             <List.Item.Meta
               avatar={

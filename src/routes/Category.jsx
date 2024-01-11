@@ -1,5 +1,19 @@
+import { pathToTitle } from "./route_config"
+
+export async function loader() {
+    document.title = pathToTitle.get("category")
+    return {}
+}
+
 export default function CategoryTab() {
     return (
-        <h1>全部影片</h1>
+        <>
+            <div>
+
+            </div>
+
+            <div>
+            </div>
+        </>
     )
 }

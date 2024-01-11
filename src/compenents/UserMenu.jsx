@@ -1,12 +1,13 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Avatar, Dropdown, Popconfirm, message } from "antd";
 
-import classes from "./UserMenu.module.css"
+import classes from "./UserMenu.module.less"
 import LoginModal from "./LoginModal";
 import { tryLogout } from "../requests/user";
 import { userContext } from "../states/userContext";
 import { loginModalContext } from "../states/loginModalContext";
+import { pathToTitle } from "../routes/route_config";
 
 export default function UserMenu() {
   const user = useContext(userContext)
@@ -35,7 +36,7 @@ export default function UserMenu() {
 
           to={`/user`}
         >
-          个人中心
+          {pathToTitle.get("user")}
         </Link>
       ),
     },

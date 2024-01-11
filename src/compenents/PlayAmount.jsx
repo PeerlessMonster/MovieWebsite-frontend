@@ -1,6 +1,7 @@
-import { PlayCircleOutlined } from "@ant-design/icons"
+import { FireTwoTone, PlayCircleOutlined } from "@ant-design/icons"
 
-import classes from "./PlayAmount.module.css";
+import classes from "./PlayAmount.module.less";
+import { Space } from "antd";
 
 export default function PlayAmount({ value }) {
     let playAmountStr
@@ -11,9 +12,9 @@ export default function PlayAmount({ value }) {
     }
 
     return (
-        <div>
-            <PlayCircleOutlined />
+        <Space>
+            <FireTwoTone />
             <span className={classes.textEndofIcon}>{playAmountStr}</span>
-        </div>
+        </Space>
     )
 }

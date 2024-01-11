@@ -7,8 +7,9 @@ import App, { loader as appLoader } from "./App.jsx";
 import ErrorPage from "./error-page.jsx";
 import JumpToRankPage from "./default-page.jsx";
 import RankTab, { loader as rankTabLoader } from "./routes/Rank.jsx";
-import CategoryTab from "./routes/Category.jsx";
-import UserCenterTab from "./routes/UserCenter.jsx";
+import CategoryTab, { loader as categoryTabLoader } from "./routes/Category.jsx";
+import UserCenterTab, { loader as userTabLoader } from "./routes/UserCenter.jsx";
+import Detail, { loader as detailLoader } from "./routes/Detail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -30,11 +31,19 @@ const router = createBrowserRouter([
       {
         path: "/category",
         element: <CategoryTab />,
+        loader: categoryTabLoader
+      },
+
+      {
+        path: "/movie/:id",
+        element: <Detail />,
+        loader: detailLoader
       },
 
       {
         path: "/user",
-        element: <UserCenterTab />
+        element: <UserCenterTab />,
+        loader: userTabLoader
       },
     ],
   },

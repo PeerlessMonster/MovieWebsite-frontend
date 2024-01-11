@@ -1,19 +1,15 @@
-// import { useLoaderData } from "react-router-dom"
 import { useContext } from "react"
-
-// import { getUserInfo } from "../requests/user_info"
 import { Descriptions } from "antd"
-import { userContext } from "../states/userContext"
 
-// export async function loader() {
-//   const userInfo = await getUserInfo()
-//   return { userInfo }
-//   /* 必须包花括号 */
-// }
+import { userContext } from "../states/userContext"
+import { pathToTitle } from "./route_config"
+
+export async function loader() {
+  document.title = pathToTitle.get("user")
+  return {}
+}
 
 export default function UserCenterTab() {
-  // /* 变量名必须相同 */
-  // const { userInfo } = useLoaderData()
   const user = useContext(userContext)
   const userInfo = user.info
 

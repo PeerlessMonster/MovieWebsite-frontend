@@ -1,26 +1,18 @@
 import classes from "./BriefIntroduction.module.less";
-import PlayAmount from "./PlayAmount";
-import ScoreStar from "./ScoreStar";
+import FeedbackBox from "./FeedbackBox";
 
-export default function BriefIntroduction({
-  name,
-  category,
-  releaseTime,
-  playAmount,
-  score
-}) {
+export default function BriefIntroduction({ data }) {
   return (
     <>
-      <div className={classes.title}>{name}</div>
-      <div className={classes.annotation}>{category}</div>
-      <div className>上映时间：{releaseTime}</div>
-      <div className={classes.sidebysidebox}>
-        <PlayAmount value={playAmount} />
-        <div className={classes.scorestarEndofPlayamount}>
-          <ScoreStar value={score} />
-        </div>
-        
+      <div>
+        <h1 className={classes.title}>{data.name}</h1>
+        <div className={classes.annotationBottomofTitle}>{data.category}</div>
       </div>
+      <h3 className={classes.maintext}>上映时间：{data.releaseTime}</h3>
+      <FeedbackBox
+        playAmount={data.playAmount}
+        score={data.score}
+      />
     </>
   )
 }

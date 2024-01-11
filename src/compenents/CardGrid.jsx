@@ -12,44 +12,43 @@ export default function CardGrid({ data }) {
   return (
     <Card className={classes.gridWhole}>
       {data.map((item, index) => {
+        const name = item.name
+        const category = item.category
+        const releaseTime = item.releaseTime
+        const playAmount = item.playAmount
+        const score = item.score
+        const briefIntro = { name, category, releaseTime, playAmount, score }
+
         const isLarge = (index + 1) % 4 === 2
         return (
-            <Card.Grid
-              className={
+          <Card.Grid
+            className={
+              isLarge
+                ? wholeGridHovered
+                  ? classes.hoveredlargecard
+                  : classes.unhoveredlargecard
+                : wholeGridHovered
+                  ? classes.hoveredsmallcard
+                  : classes.unhoveredsmallcard
+            }
+            onMouseOver={() => setWholeGridHovered(true)}
+            onMouseLeave={() => setWholeGridHovered(false)}
+
+            style={{
+              backgroundImage: `url(${
                 isLarge
-                  ? wholeGridHovered
-                    ? classes.hoveredlargecard
-                    : classes.unhoveredlargecard
-                  : wholeGridHovered
-                    ? classes.hoveredsmallcard
-                    : classes.unhoveredsmallcard
-              }
-              onMouseOver={() => setWholeGridHovered(true)}
-              onMouseLeave={() => setWholeGridHovered(false)}
-              style={{
-                backgroundImage: `url(${
-                  isLarge
-                    ? genMovieLargeImgUrl(item.id)
-                    : genMovieMiddleImgUrl(item.id)
-                })`,
-              }}
-              key={index}
-            >
-              <JumpToDetailOrOpenLoginModalBox urlParam={item.id}>
+                  ? genMovieLargeImgUrl(item.id)
+                  : genMovieMiddleImgUrl(item.id)
+              })`,
+            }}
+            key={index}
+          >
+            <JumpToDetailOrOpenLoginModalBox urlParam={item.id}>
               <div className="briefintro">
-              
-                <BriefIntroduction
-                  name={item.name}
-                  category={item.category}
-                  releaseTime={item.releaseTime}
-                  playAmount={item.playAmount}
-                  score={item.score}
-                />
+                <BriefIntroduction data={briefIntro} />
               </div>
-                
-              </JumpToDetailOrOpenLoginModalBox>
-              
-            </Card.Grid>
+            </JumpToDetailOrOpenLoginModalBox>
+          </Card.Grid>
         )
       })}
     </Card>
