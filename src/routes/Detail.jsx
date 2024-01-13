@@ -2,11 +2,11 @@ import { useContext } from "react"
 import { useLoaderData } from "react-router-dom"
 
 import classes from "./Detail.module.less"
-import { getDetail } from "../requests/movie"
-import DetailIntroduction from "../compenents/DetailIntroduction"
+import { searchOne } from "../requests/movie"
+import MoreInformationBox from "../compenents/display/item/MoreInformationBox"
 import { genMovieLargeImgUrl } from "../requests/image"
 import { userContext } from "../states/userContext"
-import MoreIntroduction from "../compenents/MoreIntroduction"
+import DetailCard from "../compenents/display/item/DetailCard"
 
 export async function loader({ params }) {
     /* 滚动到顶部 */
@@ -17,7 +17,7 @@ export async function loader({ params }) {
 
     let movieDetail = null
 
-    const response = await getDetail(params.id)
+    const response = await searchOne(params.id)
     if (response.ok) {
         movieDetail = await response.json()
     }
@@ -26,7 +26,7 @@ export async function loader({ params }) {
     return { movieDetail }
 }
 
-export default function Detail() {
+export default function DetailTab() {
     const user = useContext(userContext)
     const userInfo = user.info
     if (!userInfo) {
@@ -58,12 +58,12 @@ export default function Detail() {
                 }}
                 >
                 <div className={classes.card}>
-                    <DetailIntroduction data={detailIntro}/>
+                    <MoreInformationBox data={detailIntro}/>
                 </div>
             </div>
             <div className={classes.tableBottomofBox}>
                 <h1>影片详情</h1>
-                <MoreIntroduction data={moreIntro} />
+                <DetailCard data={moreIntro} />
             </div>
         </>
     )

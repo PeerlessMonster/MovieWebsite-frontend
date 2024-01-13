@@ -1,0 +1,85 @@
+@import "../../public.less";
+
+.grid-whole {    
+    border-radius: @borderRadius;
+    padding: 0.9em;
+    box-shadow: @cardShadow;
+}
+
+.card {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+
+    height: 59.5vh;
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            padding: 0;
+        }
+    }
+
+    :global {
+        .briefintro {
+            opacity: 0;
+        }
+    }
+}
+@cardOnceWidth: 33.33%;// 100% / 3
+
+.deactivatesmallcard {
+    .card();
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            width: @cardOnceWidth;
+        }
+    }
+}
+
+.deactivatelargecard {
+    .card();
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-card-grid.ant-card-grid-hoverable {
+            width: @cardOnceWidth * 2;
+        }
+    }
+}
+
+.hover {
+    filter: brightness(50%);
+    &:hover {
+        filter: brightness(100%);
+        transform: scale(1.02);
+
+        :global {
+            .briefintro {
+                opacity: 100%;
+                backdrop-filter: blur(20px);
+                height: 100%;
+
+                @verticalPadding: 15vh;
+                padding-top: @verticalPadding;
+                padding-bottom: @verticalPadding;
+
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                text-align: center;
+                color: white;
+            }
+        }
+    }
+}
+
+.activatesmallcard {
+    .deactivatesmallcard();
+    .hover();
+}
+
+.activatelargecard {
+    .deactivatelargecard();
+    .hover()
+}

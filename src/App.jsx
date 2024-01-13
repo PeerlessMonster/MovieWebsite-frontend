@@ -3,7 +3,7 @@ import { Layout } from "antd"
 const { Header, Content, Footer } = Layout
 
 import classes from "./App.module.less"
-import HeaderBar from "./compenents/HeaderBar"
+import HeaderBar from "./compenents/layout/HeaderBar"
 import { getUserInfo } from "./requests/user"
 import { useUser, userContext } from "./states/userContext"
 import { loginModalContext, useLoginModal } from "./states/loginModalContext"

@@ -1,0 +1,29 @@
+@import "../compenents/public.less";
+
+.form {
+    margin-top: @marginTopFirst;
+    margin-left: @sideMargin;
+    margin-right: @sideMargin;
+}
+
+.divider {
+    &:global {
+        &.ant-divider.ant-divider-horizontal.ant-divider-with-text.ant-divider-with-text-left {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.title {
+    .heading();
+}
+
+.box-bottomof-form {
+    display: flex;
+    align-items: center;
+
+    min-height: 49.2vh;
+    margin-top: 2vh;
+    margin-left: @sideMargin;
+    margin-right: @sideMargin;
+}

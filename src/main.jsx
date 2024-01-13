@@ -9,7 +9,7 @@ import JumpToRankPage from "./default-page.jsx";
 import RankTab, { loader as rankTabLoader } from "./routes/Rank.jsx";
 import CategoryTab, { loader as categoryTabLoader } from "./routes/Category.jsx";
 import UserCenterTab, { loader as userTabLoader } from "./routes/UserCenter.jsx";
-import Detail, { loader as detailLoader } from "./routes/Detail.jsx";
+import DetailTab, { loader as detailLoader } from "./routes/Detail.jsx";
 
 const router = createBrowserRouter([
   {
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 
       {
         path: "/movie/:id",
-        element: <Detail />,
+        element: <DetailTab />,
         loader: detailLoader
       },
 

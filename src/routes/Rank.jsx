@@ -1,11 +1,11 @@
 import { useLoaderData } from "react-router-dom";
 
 import classes from "./Rank.module.less"
-import PictureCarousel from "../compenents/PictureCarousel";
+import CarouselBox from "../compenents/display/list/CarouselBox";
 import { getCarousel, getLatest, getPopular, getTopScore } from "../requests/movie";
-import CardListHorizontal from "../compenents/CardListHorizontal";
-import ListVerticalCard from "../compenents/ListVerticalCard";
-import CardGrid from "../compenents/CardGrid";
+import CardVerticalListHorizontal from "../compenents/display/list/CardVerticalListHorizontal";
+import ListVertical from "../compenents/display/list/ListVertical";
+import Grid from "../compenents/display/list/Grid";
 import { pathToTitle } from "./route_config";
 
 export async function loader() {
@@ -44,22 +44,22 @@ export default function RankTab() {
     return (
         <>
             <div className={classes.carouselBottomofHeader}>
-                <PictureCarousel data={carouselMovies} />
+                <CarouselBox data={carouselMovies} />
             </div>
             
             <div className={classes.horizontallistBottomofCarousel}>
                 <h1>最新上映</h1>
-                <CardListHorizontal data={latestMovies} />
+                <CardVerticalListHorizontal data={latestMovies} />
             </div>
 
             <div className={classes.sidebysideboxBottomofHorizontallist}>
                 <div className="verticallist">
                     <h1>广受好评</h1>
-                    <ListVerticalCard data={topScoreMovies} />
+                    <ListVertical data={topScoreMovies} />
                 </div>
                 <div className="cardgrid-endof-verticallist">
                     <h1>时下热门</h1>
-                    <CardGrid data={popularMovies} />
+                    <Grid data={popularMovies} />
                 </div>
             </div>
         </>
