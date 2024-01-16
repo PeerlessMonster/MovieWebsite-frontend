@@ -1,22 +1,6 @@
-import { useEffect, useRef, useSyncExternalStore } from "react";
+import { useSyncExternalStore } from "react";
 
-export default function useArriveBottom() {
-    const arrivedBottom = useRef(false)
-
-    const position = useScrollStatus()
-    useEffect(() => {
-        const scrollTop = position.scrollTop
-        const scrollHeight = position.scrollHeight
-        const clientHeight = position.clientHeight
-        if (scrollHeight - scrollTop === clientHeight) {
-            arrivedBottom.current = true
-        }
-    }, [position])
-
-    return arrivedBottom.current
-}
-
-function useScrollStatus() {
+export default function useScrollStatus() {
     const scrollTop = useSyncExternalStore(
         subscribe,
         () => document.documentElement.scrollTop

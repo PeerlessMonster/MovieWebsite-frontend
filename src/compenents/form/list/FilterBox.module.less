@@ -1,20 +1,23 @@
-@import "../public.less";
+@import "../../public.less";
 
 .label {
     .heading3();
     font-weight: bold;
-    color: grey;
+    color: @grey;
 }
 
-.searchbox-bottomof-checkbox {
+.selectinput-bottomof-checkbox {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
+}
 
-    :global {
-        .search-single {
-            margin: 0;
-        }
-    }
+.searchkeywordbox {
+    align-items: flex-start;
+}
+
+.sortbox {
+    align-items: flex-end;
 }
 
 .select {

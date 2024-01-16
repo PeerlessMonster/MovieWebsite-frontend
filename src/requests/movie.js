@@ -31,7 +31,8 @@ export function searchOne(id) {
 }
 
 export function search(data, offset = 0) {
-    const limit = 20
+    // const limit = 20
+    const limit = 5
 
     const path = `${basePath}?offset=${offset}&limit=${limit}`
     const options = {

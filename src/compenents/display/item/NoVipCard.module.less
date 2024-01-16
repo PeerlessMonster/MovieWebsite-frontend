@@ -1,0 +1,24 @@
+@import "./BaseVipCard.module.less";
+
+.annotation-bottomof-title {
+    color: @grey;
+    text-align: center;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.novipcontent {
+    .content();
+    background-image: url("../../../assets/creative-process-two-color.svg");
+}
+
+.novipbutton {
+    .button();
+    color: @grey;
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-btn.ant-btn-round.ant-btn-primary.ant-btn-lg {
+            background-color: @yellow;
+        }
+    }
+}

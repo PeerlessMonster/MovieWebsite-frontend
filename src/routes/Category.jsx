@@ -5,9 +5,10 @@ import { Divider, FloatButton, message } from "antd";
 import classes from "./Category.module.less";
 import { pathToTitle } from "./route_config";
 import CardHorizontalBox from "../compenents/display/list/CardHorizontalBox";
-import FilterForm from "../compenents/input/FilterForm";
+import FilterBox from "../compenents/form/list/FilterBox";
 import { search } from "../requests/movie";
-import useArriveBottom from "../states/useArriveBottom";
+import useScrollStatus from "../states/useScrollStatus";
+import useReachBottom from "../states/useReachBottom";
 
 const filter = {
   category: null,
@@ -15,19 +16,19 @@ const filter = {
   search: "",
   keyword: null,
   sort: "play_amount",
-  descend: true,
-};
+  descend: true
+}
 
 export async function loader() {
-  document.title = pathToTitle.get("category");
+  document.title = pathToTitle.get("category")
 
-  let movies = null;
+  let movies = null
 
-  const response = await search(filter);
+  const response = await search(filter)
   if (response.ok) {
-    movies = await response.json();
+    movies = await response.json()
   }
-  return { movies };
+  return { movies }
 }
 
 export default function CategoryTab() {
@@ -36,42 +37,51 @@ export default function CategoryTab() {
 
   const [latestSubmittedFiltter, setLatestSubmittedFilter] = useState(filter)
   const noMoreData = useRef(false)
+  const loadMoreData = async (offset) => {
+    const response = await search(latestSubmittedFiltter, offset)
+    if (response.ok) {
+      const moreData = await response.json()
+      if (moreData.length === 0) {
+        noMoreData.current = true
+      } else {
+        setData(data.concat(moreData))
+      }
+    } else {
+      if (response.status === 404) {
+        setData([])
+      }
+    }
+  }
 
-  const arrivedBottom = useArriveBottom();
-  useEffect(() => {
-    let ignore = false
-
+  useReachBottom([data], () => {
     if (!noMoreData.current) {
-      const loadMoreData = async (offset) => {
-        const response = await search(latestSubmittedFiltter, offset)
-        if (response.ok) {
-          const moreData = await response.json()
-          if (moreData.length === 0) {
-            noMoreData.current = true
-          } else {
-            setData(data.concat(moreData))
-          }
-        } else {
-          if (response.status === 404) {
-            setData([])
-          }
-        }
-      }
-
-      if (!ignore) {
-        loadMoreData(data.length)
-      }
+      loadMoreData(data.length)
     } else {
       message.info("已经到底啦")
     }
-    return () => (ignore = true)
+  })
+  /* 另一种实现 */
+  // const { scrollTop, scrollHeight, clientHeight } = useScrollStatus()
+  // useEffect(() => {
+  //   let ignore = false
 
-  }, [arrivedBottom])
+  //   if (scrollHeight - scrollTop === clientHeight) {
+  //     if (!noMoreData.current) {
+  //       if (!ignore) {
+  //         loadMoreData(data.length)
+  //       }
+  //     } else {
+  //       message.info("已经到底啦")
+  //     }
+  //   }
+  //   return () => (ignore = true)
+
+  // }, [scrollTop, scrollHeight, clientHeight])
 
   return (
     <>
       <div className={classes.form}>
-        <FilterForm
+        <FilterBox
           setData={setData}
           setLatestSubmittedFormData={setLatestSubmittedFilter}
           latestSubmittedFormData={latestSubmittedFiltter}
@@ -84,7 +94,7 @@ export default function CategoryTab() {
         <CardHorizontalBox data={data} />
       </div>
 
-      {/* Warning: findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of DomWrapper2 which is inside StrictMode. Instead, add a ref directly to the element you want to reference. Learn more about using refs safely here: https://reactjs.org/link/strict-mode-find-node */}
+      {/* Warning: findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of DomWrapper2 which is inside StrictMode. Instead, add a ref directly to the element you want to reference. */}
       <FloatButton.BackTop type="primary" tooltip="回到顶部" />
     </>
   )

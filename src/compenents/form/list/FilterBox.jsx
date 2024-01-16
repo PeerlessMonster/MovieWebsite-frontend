@@ -2,22 +2,27 @@ import { SearchOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select, Space } from "antd";
 const { useWatch } = Form;
 
-import classes from "./FilterForm.module.less";
-import { search } from "../../requests/movie";
+import classes from "./FilterBox.module.less";
+import { search } from "../../../requests/movie";
 
-export default function FilterForm({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
+export default function FilterBox({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
   const categoryOptions = [
     "科幻",
     "冒险",
     "灾难",
     "剧情",
+    "悬疑",
+    "犯罪",
     "喜剧",
     "历史",
     "战争",
     "动作",
     "西部",
+    "惊悚",
+    "传记",
+    "爱情"
   ]
-  const regionOptions = ["中国大陆", "中国香港", "美国"]
+  const regionOptions = ["中国大陆", "中国香港", "中国澳门", "中国台湾", "美国", "英国", "加拿大", "法国", "荷兰"]
   const searchOptions = [
     { value: "", label: " " },
     { value: "name", label: "名称" },
@@ -39,13 +44,8 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
   const [form] = Form.useForm();
   const formData = useWatch([], form)
   const onFinish = () => {
-    const search = formData.search
-    const keyword = formData.keyword
-    console.info(formData)
-    if ((search != "" && keyword != null) || (search == "" && keyword == null)) {
-      if (formData != latestSubmittedFormData) {
-        submitSearch(formData)
-      }
+    if (formData != latestSubmittedFormData) {
+      submitSearch(formData)
     }
   }
 
@@ -60,6 +60,8 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
 
   return (
     <Form
+      layout="vertical"
+
       name="serach"
       form={form}
       initialValues={{
@@ -71,7 +73,7 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
     >
       <Form.Item
         label={
-          <h3 className={classes.label}>分 类</h3>
+          <h3 className={classes.label}>分类</h3>
         }
         name="category"
       >
@@ -79,17 +81,23 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
       </Form.Item>
 
       <Form.Item label={
-          <h3 className={classes.label}>地 区</h3>
+          <h3 className={classes.label}>地区</h3>
         }
         name="region"
       >
         <Checkbox.Group options={regionOptions} />
       </Form.Item>
 
-      <div className={classes.searchboxBottomofCheckbox}>
-        <Space size="small">
+      <div className={classes.selectinputBottomofCheckbox}>
+        <Space
+          className={classes.searchkeywordbox}
+          size="small"
+        >
           <Form.Item
-            className="search-single"
+            label={
+              <h3 className={classes.label}>搜索字段</h3>
+            }
+
             name="search"
           >
             <Select
@@ -98,8 +106,24 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
             />
           </Form.Item>
           <Form.Item
-            className="search-single"
+            label={
+              <h3 className={classes.label}>关键词</h3>
+            }
+
             name="keyword"
+            dependencies={["search"]}
+            rules={[
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value && getFieldValue("search") !== "") {
+                    return Promise.reject(new Error("请输入搜索的关键词！"))
+                  } else if (value && getFieldValue("search") == "") {
+                    return Promise.reject(new Error("请选择要搜索的字段！"))
+                  }
+                  return Promise.resolve()
+                }
+              })
+            ]}
           >
             <Input
               className={classes.input}
@@ -107,9 +131,15 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
             />
           </Form.Item>
         </Space>
-        <Space size="small">
+        <Space
+          className={classes.sortbox}
+          size="small"
+        >
           <Form.Item
-            className="search-single"
+            label={
+              <h3 className={classes.label}>排序字段</h3>
+            }
+
             name="sort"
           >
             <Select
@@ -117,10 +147,7 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
               options={sortOptions}
             />
           </Form.Item>
-          <Form.Item
-            className="search-single"
-            name="descend"
-          >
+          <Form.Item name="descend">
             <Select
               className={classes.select}
               options={orderOptions}
@@ -130,7 +157,7 @@ export default function FilterForm({ setData, setLatestSubmittedFormData, latest
       </div>
 
       <Form.Item className={classes.buttonBottomofInput}>
-        <Space size="small">
+        <Space size="large">
           <Button
             type="primary"
             ghost

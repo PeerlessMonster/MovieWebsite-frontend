@@ -1,6 +1,7 @@
+@marginTop: 3vh;
+@shorterMarginTop: 2vh;
+
 .modal-whole {
-    max-width: 25em;
-    
     /* 覆盖组件库样式 */
     :global {
         .ant-modal-content {
@@ -10,24 +11,23 @@
 }
 
 .alert-bottomof-title {
-    margin-top: 2vh;
+    margin-top: @shorterMarginTop;
 
     text-align: start;
 }
 
 .form-bottomof-title {
-    max-width: 23em;
-    margin-top: 3vh;
+    margin-top: @marginTop;
     
     text-align: start;
 }
 
 .password-bottomof-username {
-    margin-top: 3vh;
+    margin-top: @marginTop;
 }
 
 .button-bottomof-checkbox {
-    margin-top: 3vh;
+    margin-top: @marginTop;
 }
 
 .login-button {

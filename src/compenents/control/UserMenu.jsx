@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Avatar, Dropdown, Popconfirm, Space, message } from "antd";
 
 import classes from "./UserMenu.module.less"
-import LoginModal from "../input/LoginModal";
+import LoginModal from "../form/list/LoginModal";
 import { tryLogout } from "../../requests/user";
 import { userContext } from "../../states/userContext";
 import { loginModalContext } from "../../states/loginModalContext";
@@ -85,7 +85,7 @@ export default function UserMenu() {
           size="large"
           className={classes.avatar}
         >{
-          (userInfo.name != null ? userInfo.name : userInfo.email)
+          ((userInfo.name != null && userInfo.name != "") ? userInfo.name : userInfo.email)
             .substring(0, 4)
         }</Avatar>
       </div>

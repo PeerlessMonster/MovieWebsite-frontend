@@ -1,12 +1,13 @@
 import { useContext, useState } from "react";
-import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
 const { useWatch } = Form;
 
 import classes from "./LoginModal.module.less"
 import RegisterModal from "./RegisterModal"
-import { tryLogin } from "../../requests/user";
-import { userContext } from "../../states/userContext";
+import { tryLogin } from "../../../requests/user";
+import { userContext } from "../../../states/userContext";
+import PasswordInput from "../item/PasswordInput";
 
 export default function LoginModal({ loginModalOpen, closeLoginModal }) {
   const [registerModalOpen, setRegisterModalOpen] = useState(false)
@@ -55,6 +56,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
   return (
     <Modal
       centered
+      width={400}
       className={classes.modalWhole}
 
       title="登录账号，解锁更多精彩~"
@@ -63,7 +65,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
       onCancel={resetAndCloseModal}
       footer={null}
     >
-      {errorMessage != "" ?
+      {errorMessage !== "" ?
       (<Alert
         type="error"
         showIcon
@@ -98,25 +100,11 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
             placeholder="邮箱"
           />
         </Form.Item>
-        <Form.Item
-          className={classes.passwordBottomofUsername}
-          
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "请输入密码！",
-            },
-          ]}
-        >
-          <Input
-            prefix={
-              <LockOutlined />
-            }
-            type="password"
-            placeholder="密码"
-          />
-        </Form.Item>
+        
+        <div className={classes.passwordBottomofUsername}>
+          <PasswordInput />
+        </div>
+
         <Form.Item
           noStyle
 

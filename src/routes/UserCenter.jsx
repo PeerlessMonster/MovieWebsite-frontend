@@ -1,8 +1,12 @@
-import { useContext } from "react"
-import { Descriptions } from "antd"
+import { useContext, useState } from "react"
 
-import { userContext } from "../states/userContext"
-import { pathToTitle } from "./route_config"
+import classes from "./UserCenter.module.less";
+import { userContext } from "../states/userContext";
+import { pathToTitle } from "./route_config";
+import UpdateUserBox from "../compenents/form/list/UpdateUserBox";
+import NoVipCard from "../compenents/display/item/NoVipCard";
+import VipLevelCard from "../compenents/display/item/VipLevelCard";
+import PayModal from "../compenents/control/PayModal";
 
 export async function loader() {
   document.title = pathToTitle.get("user")
@@ -10,28 +14,30 @@ export async function loader() {
 }
 
 export default function UserCenterTab() {
+  const [modalOpen, setModalOpen] = useState(false)
+
   const user = useContext(userContext)
   const userInfo = user.info
 
-  const userInfoItems = [
-    {
-      key: "1",
-      label: "昵称",
-      children: userInfo.name,
-    },
-    {
-      key: "2",
-      label: "邮箱",
-      children: userInfo.email,
-    }
-  ]
+  const name = userInfo.name
+  const email = userInfo.email
+  const data = { name, email }
+  const vip = userInfo.vip
 
   return (
-    <div>
-        <Descriptions
-          title="个人信息"
-          items={userInfoItems}
-        />
+    <div className={classes.contentWhole}>
+      <div className={classes.ad}>
+        {vip === 0 ? (
+          <NoVipCard openModal={() => setModalOpen(true)} />
+        ) : (
+          <VipLevelCard value={vip} />
+        )}
+      </div>
+      <PayModal modalOpen={modalOpen} closeModal={() => setModalOpen(false)} />
+      <div className={classes.formEndofAd}>
+        <h1>修改信息</h1>
+        <UpdateUserBox data={data} />
+      </div>
     </div>
   )
 }

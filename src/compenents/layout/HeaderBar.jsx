@@ -27,7 +27,7 @@ export default function HeaderBar() {
     const pathname = location.pathname
     const path = pathname.substring(1)
 
-    return pages.some((page) => path == page.key)
+    return pages.some((page) => path === page.key)
       ? path : ""
   })()  
 

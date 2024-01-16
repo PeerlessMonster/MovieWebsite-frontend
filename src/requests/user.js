@@ -39,3 +39,22 @@ export function getUserInfo() {
     }
     return fetchData(basePath, options)
 }
+
+export function updateUserInfo(data) {
+    const options = {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+    return fetchData(basePath, options)
+}
+
+export function upgradeVip() {
+    const path = basePath + "/vip"
+    const options = {
+        method: "PATCH"
+    }
+    return fetchData(path, options)
+}
