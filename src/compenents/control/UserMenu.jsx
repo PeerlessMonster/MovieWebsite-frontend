@@ -5,13 +5,13 @@ import { Avatar, Dropdown, Popconfirm, Space, message } from "antd";
 import classes from "./UserMenu.module.less"
 import LoginModal from "../form/list/LoginModal";
 import { tryLogout } from "../../requests/user";
-import { userContext } from "../../states/userContext";
-import { loginModalContext } from "../../states/loginModalContext";
+import { UserContext } from "../../states/UserContext";
+import { LoginModalContext } from "../../states/LoginModalContext";
 import { pathToTitle } from "../../routes/route_config";
 import { FrownTwoTone, SmileTwoTone } from "@ant-design/icons";
 
 export default function UserMenu() {
-  const user = useContext(userContext)
+  const user = useContext(UserContext)
   const userInfo = user.info
 
   const logout = async () => {
@@ -24,7 +24,7 @@ export default function UserMenu() {
     }
   }
 
-  const loginModal = useContext(loginModalContext)
+  const loginModal = useContext(LoginModalContext)
 
   const menuItems = [
     {

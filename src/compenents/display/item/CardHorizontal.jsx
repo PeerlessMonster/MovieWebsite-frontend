@@ -2,9 +2,9 @@ import { Card } from "antd";
 const { Meta } = Card;
 
 import classes from "./CardHorizontal.module.less";
-import RandomColorTagList from "../element/RandomColorTagList";
-import { genMovieLargeImgUrl } from "../../../requests/image";
+import CategoryTagList from "../element/CategoryTagList";
 import FeedbackBox from "../element/FeedbackBox";
+import { genMovieLargeImgUrl } from "../../../requests/image";
 
 export default function CardHorizontal({ data }) {
   const categoryStr = data.category;
@@ -37,7 +37,7 @@ export default function CardHorizontal({ data }) {
         }
         description={
           <div className={classes.taglistBottomofTitlebox}>
-            <RandomColorTagList value={categoryList} />
+            <CategoryTagList value={categoryList} />
           </div>
         }
       />

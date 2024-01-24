@@ -14,10 +14,10 @@ export default function RegisterModal({ modalOpen, closeModal }) {
   const formData = useWatch([], form)
   const formValidate = useFormValidate(form, formData)
 
-  const [errorMsg, setErrorMsg] = useState("")
+  const [errMsg, setErrMsg] = useState("")
   const resetAndCloseForm = () => {
     closeModal()
-    setErrorMsg("")
+    setErrMsg("")
     form.resetFields()
   }
 
@@ -30,7 +30,7 @@ export default function RegisterModal({ modalOpen, closeModal }) {
     } else {
       const data = await response.json()
       if (response.status === 400) {
-        setErrorMsg(data.message)
+        setErrMsg(data.message)
         formValidate.disableSubmit()
       }
     }
@@ -47,13 +47,13 @@ export default function RegisterModal({ modalOpen, closeModal }) {
       onCancel={resetAndCloseForm}
       footer={null}
     >
-      {errorMsg !== "" ?
+      {errMsg !== "" ?
       (<Alert
         type="error"
         showIcon
         className={classes.alertBottomofTitle}
 
-        message={errorMsg}
+        message={errMsg}
       />) : null}
 
       <Form
@@ -64,13 +64,12 @@ export default function RegisterModal({ modalOpen, closeModal }) {
         form={form}
         onFinish={submitRegister}
         // onFinishFailed={onFinishFailed}
-        autoComplete="off"
       >
-        <NicknameInput />
+        <NicknameInput label="outside" />
         
-        <EmailInput />
+        <EmailInput label="outside" />
 
-        <PasswordInputWithConfirm />
+        <PasswordInputWithConfirm label="outside" />
 
         <Form.Item className={classes.buttonsBottomofInputs}>
           <Button

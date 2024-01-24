@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export const loginModalContext = createContext(null)
+export const LoginModalContext = createContext(null)
 
 export function useLoginModal() {
     const [opened, setIsOpen] = useState(false)

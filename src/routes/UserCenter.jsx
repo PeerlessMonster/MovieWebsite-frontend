@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 
 import classes from "./UserCenter.module.less";
-import { userContext } from "../states/userContext";
+import { UserContext } from "../states/UserContext";
 import { pathToTitle } from "./route_config";
 import UpdateUserBox from "../compenents/form/list/UpdateUserBox";
 import NoVipCard from "../compenents/display/item/NoVipCard";
@@ -16,7 +16,7 @@ export async function loader() {
 export default function UserCenterTab() {
   const [modalOpen, setModalOpen] = useState(false)
 
-  const user = useContext(userContext)
+  const user = useContext(UserContext)
   const userInfo = user.info
 
   const name = userInfo.name

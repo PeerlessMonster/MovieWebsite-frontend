@@ -1,9 +1,9 @@
 import { Form, Input } from "antd";
-import { MailOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 const labelText = "邮箱"
 
-export default function EmailInput(
+export default function UsernameInput(
   { size: size, label: label } = { size: "default" }
 ) {
   if (label !== "inside" && label !== "outside") {
@@ -13,21 +13,17 @@ export default function EmailInput(
   return (
     <Form.Item
       label={label === "outside" ? labelText : null}
-      name="email"
+      name="username"
       rules={[
         {
-          type: "email",
-          message: "邮箱不符合格式！"
-        },
-        {
           required: true,
-          message: "请输入邮箱！"
+          message: "请输入用户名！"
         }
       ]}
     >
       <Input
         size={size}
-        prefix={<MailOutlined />}
+        prefix={<UserOutlined />}
         placeholder={label === "inside" ? labelText : null}
       />
     </Form.Item>

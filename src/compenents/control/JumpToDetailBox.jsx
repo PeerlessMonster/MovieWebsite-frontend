@@ -2,14 +2,14 @@ import { useContext } from "react"
 import { Link } from "react-router-dom"
 
 import classes from "./JumpToDetailBox.module.css"
-import { loginModalContext } from "../../states/loginModalContext"
-import { userContext } from "../../states/userContext"
+import { LoginModalContext } from "../../states/LoginModalContext"
+import { UserContext } from "../../states/UserContext"
 
 export default function JumpToDetailBox(props) {
-    const user = useContext(userContext)
+    const user = useContext(UserContext)
     const userInfo = user.info
 
-    const loginModal = useContext(loginModalContext)
+    const loginModal = useContext(LoginModalContext)
     const openLoginModal = loginModal.open
 
     const url = `/movie/${props.urlParam}`

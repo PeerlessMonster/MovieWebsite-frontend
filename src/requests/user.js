@@ -25,6 +25,18 @@ export function tryLogin(data) {
     return fetchData(path, options)
 }
 
+export function checkPassword(data) {
+    const path = basePath + "/passwords"
+    const options = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+    return fetchData(path, options)
+}
+
 export function tryLogout() {
     const path = basePath + "/sessions"
     const options = {
@@ -33,16 +45,16 @@ export function tryLogout() {
     return fetchData(path, options)
 }
 
-export function getUserInfo() {
+export function getInformation() {
     const options = {
         method: "GET"
     }
     return fetchData(basePath, options)
 }
 
-export function updateUserInfo(data) {
+export function changeInformation(data) {
     const options = {
-        method: "PUT",
+        method: "PATCH",
         headers: {
             "Content-Type": "application/json"
         },
@@ -51,10 +63,22 @@ export function updateUserInfo(data) {
     return fetchData(basePath, options)
 }
 
-export function upgradeVip() {
-    const path = basePath + "/vip"
+export function changePassword(data) {
+    const path = basePath + "/passwords"
     const options = {
-        method: "PATCH"
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    }
+    return fetchData(path, options)
+}
+
+export function upgradeVip() {
+    const path = basePath + "/vips"
+    const options = {
+        method: "PUT"
     }
     return fetchData(path, options)
 }

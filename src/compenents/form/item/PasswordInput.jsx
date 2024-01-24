@@ -1,9 +1,18 @@
-import { LockOutlined } from "@ant-design/icons";
 import { Form, Input } from "antd";
+import { LockOutlined } from "@ant-design/icons";
 
-export default function PasswordInput({ size: size } = { size: "default" }) {
+const labelText = "密码"
+
+export default function PasswordInput(
+  { size: size, label: label } = { size: "default" }
+) {
+  if (label !== "inside" && label !== "outside") {
+    label = "inside"
+  }
+
   return (
     <Form.Item
+      label={label === "outside" ? labelText : null}
       name="password"
       rules={[
         {
@@ -14,12 +23,9 @@ export default function PasswordInput({ size: size } = { size: "default" }) {
     >
       <Input
         size={size}
-        prefix={
-          <LockOutlined />
-        }
+        prefix={<LockOutlined />}
         type="password"
-
-        placeholder="密码"
+        placeholder={label === "inside" ? labelText : null}
       />
     </Form.Item>
   )

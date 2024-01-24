@@ -3,45 +3,18 @@ import { Button, Checkbox, Form, Input, Select, Space } from "antd";
 const { useWatch } = Form;
 
 import classes from "./FilterBox.module.less";
-import { search } from "../../../requests/movie";
+import { orders, search, searches, sorts } from "../../../requests/movie";
+import { pickMovieCategory, pickMovieRegion } from "../../../states/MovieInfo";
+
+const { categories, regions } = await (async function() {
+  const categories = await pickMovieCategory()
+  const regions = await pickMovieRegion()
+
+  return { categories, regions }
+})()
 
 export default function FilterBox({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
-  const categoryOptions = [
-    "科幻",
-    "冒险",
-    "灾难",
-    "剧情",
-    "悬疑",
-    "犯罪",
-    "喜剧",
-    "历史",
-    "战争",
-    "动作",
-    "西部",
-    "惊悚",
-    "传记",
-    "爱情"
-  ]
-  const regionOptions = ["中国大陆", "中国香港", "中国澳门", "中国台湾", "美国", "英国", "加拿大", "法国", "荷兰"]
-  const searchOptions = [
-    { value: "", label: " " },
-    { value: "name", label: "名称" },
-    { value: "director", label: "导演" },
-    { value: "scriptwriter", label: "编剧" },
-    { value: "actor", label: "主演" },
-  ]
-  const sortOptions = [
-    { value: "release_time", label: "上映时间" },
-    { value: "duration", label: "时长" },
-    { value: "play_amount", label: "播放量" },
-    { value: "score", label: "评分" },
-  ]
-  const orderOptions = [
-    { value: true, label: "降序" },
-    { value: false, label: "升序" },
-  ]
-
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const formData = useWatch([], form)
   const onFinish = () => {
     if (formData != latestSubmittedFormData) {
@@ -77,7 +50,7 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
         }
         name="category"
       >
-        <Checkbox.Group options={categoryOptions} />
+        <Checkbox.Group options={categories} />
       </Form.Item>
 
       <Form.Item label={
@@ -85,7 +58,7 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
         }
         name="region"
       >
-        <Checkbox.Group options={regionOptions} />
+        <Checkbox.Group options={regions} />
       </Form.Item>
 
       <div className={classes.selectinputBottomofCheckbox}>
@@ -102,7 +75,7 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
           >
             <Select
               className={classes.select}
-              options={searchOptions}
+              options={searches}
             />
           </Form.Item>
           <Form.Item
@@ -144,13 +117,13 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
           >
             <Select
               className={classes.select}
-              options={sortOptions}
+              options={sorts}
             />
           </Form.Item>
           <Form.Item name="descend">
             <Select
               className={classes.select}
-              options={orderOptions}
+              options={orders}
             />
           </Form.Item>
         </Space>

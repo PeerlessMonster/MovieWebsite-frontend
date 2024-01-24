@@ -1,5 +1,5 @@
 import { Space } from "antd";
-import { FireTwoTone, PlayCircleOutlined } from "@ant-design/icons"
+import { FireTwoTone } from "@ant-design/icons"
 
 import classes from "./PlayAmount.module.less";
 

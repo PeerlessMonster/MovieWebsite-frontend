@@ -1,26 +1,26 @@
 import { useContext, useState } from "react";
-import { UserOutlined } from "@ant-design/icons";
-import { Alert, Button, Checkbox, Form, Input, Modal, message } from "antd";
+import { Alert, Button, Checkbox, Form, Modal, message } from "antd";
 const { useWatch } = Form;
 
 import classes from "./LoginModal.module.less"
 import RegisterModal from "./RegisterModal"
 import { tryLogin } from "../../../requests/user";
-import { userContext } from "../../../states/userContext";
+import { UserContext } from "../../../states/UserContext";
 import PasswordInput from "../item/PasswordInput";
+import UsernameInput from "../item/UsernameInput";
 
 export default function LoginModal({ loginModalOpen, closeLoginModal }) {
   const [registerModalOpen, setRegisterModalOpen] = useState(false)
   
   const [form] = Form.useForm()
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errMsg, setErrMsg] = useState("")
   const resetAndCloseModal = () => {
     closeLoginModal()
-    setErrorMessage("")
+    setErrMsg("")
     form.resetFields()
   }
 
-  const user = useContext(userContext)
+  const user = useContext(UserContext)
 
   const formData = useWatch([], form)
   const submitLogin = async () => {
@@ -48,7 +48,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
       
     } else {
       if (response.status === 401) {
-        setErrorMessage(data.message)
+        setErrMsg(data.message)
       }
     }
   }
@@ -65,13 +65,13 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
       onCancel={resetAndCloseModal}
       footer={null}
     >
-      {errorMessage !== "" ?
+      {errMsg !== "" ?
       (<Alert
         type="error"
         showIcon
         className={classes.alertBottomofTitle}
 
-        message={errorMessage}
+        message={errMsg}
       />) : null}
 
       <Form
@@ -84,25 +84,10 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
         }}
         onFinish={submitLogin}
       >
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "请输入用户名！",
-            },
-          ]}
-        >
-          <Input
-            prefix={
-              <UserOutlined />
-            }
-            placeholder="邮箱"
-          />
-        </Form.Item>
+        <UsernameInput label="inside" />
         
         <div className={classes.passwordBottomofUsername}>
-          <PasswordInput />
+          <PasswordInput label="inside" />
         </div>
 
         <Form.Item

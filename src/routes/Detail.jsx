@@ -5,7 +5,7 @@ import classes from "./Detail.module.less"
 import { searchOne } from "../requests/movie"
 import MoreInformationBox from "../compenents/display/item/MoreInformationBox"
 import { genMovieLargeImgUrl } from "../requests/image"
-import { userContext } from "../states/userContext"
+import { UserContext } from "../states/UserContext"
 import DetailCard from "../compenents/display/item/DetailCard"
 
 export async function loader({ params }) {
@@ -27,7 +27,7 @@ export async function loader({ params }) {
 }
 
 export default function DetailTab() {
-    const user = useContext(userContext)
+    const user = useContext(UserContext)
     const userInfo = user.info
     if (!userInfo) {
         throw Error("未登录账号！")

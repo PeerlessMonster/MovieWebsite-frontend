@@ -4,12 +4,12 @@ import { CrownOutlined, PlayCircleOutlined } from "@ant-design/icons";
 
 import classes from "./MoreInformationBox.module.less";
 import FeedbackBox from "../element/FeedbackBox";
-import RandomColorTagList from "../element/RandomColorTagList";
-import { userContext } from "../../../states/userContext";
+import CategoryTagList from "../element/CategoryTagList";
+import { UserContext } from "../../../states/UserContext";
 
 export default function MoreInformationBox({ data }) {
   const needLevel = data.vip
-  const user = useContext(userContext)
+  const user = useContext(UserContext)
   const userInfo = user.info
   const userLevel = userInfo.vip
   const able = userLevel >= needLevel
@@ -30,7 +30,7 @@ export default function MoreInformationBox({ data }) {
         <div>
           <div className={classes.annotation}>{data.region}</div>
           <div className={classes.taglistBottomofAnnotation}>
-            <RandomColorTagList value={categoryList} />
+            <CategoryTagList value={categoryList} />
           </div>
         </div>
       </div>

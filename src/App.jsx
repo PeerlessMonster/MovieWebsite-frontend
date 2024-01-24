@@ -4,14 +4,14 @@ const { Header, Content, Footer } = Layout
 
 import classes from "./App.module.less"
 import HeaderBar from "./compenents/layout/HeaderBar"
-import { getUserInfo } from "./requests/user"
-import { useUser, userContext } from "./states/userContext"
-import { loginModalContext, useLoginModal } from "./states/loginModalContext"
+import { getInformation } from "./requests/user"
+import { useUser, UserContext } from "./states/UserContext"
+import { LoginModalContext, useLoginModal } from "./states/LoginModalContext"
 
 export async function loader() {
     let userInfo = null
 
-    const response = await getUserInfo()
+    const response = await getInformation()
     if (response.ok) {
         userInfo = await response.json()
     }
@@ -27,8 +27,8 @@ export default function App() {
     const loginModal = useLoginModal()
 
     return (
-        <userContext.Provider value={user}>
-            <loginModalContext.Provider value={loginModal}>
+        <UserContext.Provider value={user}>
+            <LoginModalContext.Provider value={loginModal}>
                 <Layout className="layout">
                     <Header className={classes.header}>
                         <HeaderBar />
@@ -42,7 +42,7 @@ export default function App() {
                         Ant Design ©2023 Created by Ant UED
                     </Footer>
                 </Layout>
-            </loginModalContext.Provider>
-        </userContext.Provider>
+            </LoginModalContext.Provider>
+        </UserContext.Provider>
     )
 }

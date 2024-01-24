@@ -23,7 +23,6 @@ export async function loader() {
   document.title = pathToTitle.get("category")
 
   let movies = null
-
   const response = await search(filter)
   if (response.ok) {
     movies = await response.json()
