@@ -44,7 +44,6 @@ export function search(data, offset = 0) {
     return fetchData(path, options)
 }
 
-// export const categories = ["科幻", "冒险", "灾难", "剧情", "悬疑", "犯罪", "喜剧", "历史", "战争", "动作", "西部", "惊悚", "传记", "奇幻", "动画", "儿童", "爱情", "音乐"]
 export function getCategory() {
     const path = basePath + "/categories"
     const options = {
@@ -53,7 +52,6 @@ export function getCategory() {
     return fetchData(path, options)
 }
 
-// export const regions = ["中国大陆", "中国香港", "中国澳门", "中国台湾", "美国", "英国", '德国', "加拿大", "法国", '意大利', '西班牙', '匈牙利', "荷兰", '捷克', '奥地利', '挪威', '摩洛哥', '墨西哥', '日本']
 export function getRegion() {
     const path = basePath + "/regions"
     const options = {

@@ -1,17 +1,18 @@
-import { Rate, Space } from "antd";
+import { Rate } from "antd";
 
 import classes from "./ScoreStar.module.less";
 
 export default function ScoreStar({ value }) {
     return (
-        <Space>
+        <div>
             <Rate
                 disabled
                 allowHalf
+                className={classes.stars}
 
                 value={value / 2}
             />
-            <span className={classes.textEndofRate}>{value}</span>
-        </Space>
+            <span className={classes.textEndofStars}>{value}</span>
+        </div>
     )
 }

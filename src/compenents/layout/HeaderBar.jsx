@@ -4,31 +4,31 @@ import { Menu } from "antd";
 import logoImg from "../../assets/video_icon.png"
 import classes from "./HeaderBar.module.css"
 import UserMenu from "../control/UserMenu";
-import { pathToTitle } from "../../routes/route_config";
+import { tabInfo } from "../../main";
 
 export default function HeaderBar() {
+  const rankTabInfo = tabInfo.titleToPath.get("rank")
+  const categoryTabInfo = tabInfo.titleToPath.get("category")
   const pages = [
     {
       label: (
-        <Link to={`/rank`}>{pathToTitle.get("rank")}</Link>
+        <Link to={rankTabInfo.path}>{rankTabInfo.title}</Link>
       ),
-      key: "rank"
+      key: rankTabInfo.path
     },
     {
       label: (
-        <Link to={`/category`}>{pathToTitle.get("category")}</Link>
+        <Link to={categoryTabInfo.path}>{categoryTabInfo.title}</Link>
       ),
-      key: "category"
+      key: categoryTabInfo.path
     }
-  ];
+  ]
 
   const location = useLocation()
   const nowSelect = (function() {
-    const pathname = location.pathname
-    const path = pathname.substring(1)
-
+    const path = location.pathname
     return pages.some((page) => path === page.key)
-      ? path : ""
+      ? path : null
   })()  
 
   return (
@@ -48,10 +48,10 @@ export default function HeaderBar() {
         
         selectedKeys={[nowSelect]}
         items={pages}
-      ></Menu>
+      />
       <div className={classes.avatarEndofMenu}>
         <UserMenu />
       </div>
     </>
-  );
+  )
 }

@@ -43,8 +43,8 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
     const data = await response.json()
     if (response.ok) {
       resetAndCloseModal()
-      message.success("登录成功")
       user.updateInfo(data)
+      message.success("登录成功")
       
     } else {
       if (response.status === 401) {

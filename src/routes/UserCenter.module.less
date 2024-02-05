@@ -1,14 +1,23 @@
 @import "../compenents/public.less";
 
-.content-whole {
-    min-height: 78.3vh;
-    margin-top: @marginTopFirst;
-    margin-left: @largerSideMargin;
-    margin-right: @largerSideMargin;
+@verticalSpace: 10vw;
+
+.box-whole {
+    height: @ContentExceptHeaderFooterHeight;
 
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    
+    :global {
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100% - @verticalSpace * 2;
+        }
+    }
 }
 
 .ad {
@@ -18,5 +27,5 @@
 .form-endof-ad {
     flex: 2 1 auto;
 
-    margin-left: @largerSideMargin;
+    margin-left: @verticalSpace;
 }

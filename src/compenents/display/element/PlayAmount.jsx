@@ -12,9 +12,9 @@ export default function PlayAmount({ value }) {
     }
 
     return (
-        <Space>
-            <FireTwoTone />
+        <div>
+            <FireTwoTone className={classes.icon} />
             <span className={classes.textEndofIcon}>{playAmountStr}</span>
-        </Space>
+        </div>
     )
 }

@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { useLoaderData } from "react-router-dom";
-import { Divider, FloatButton, message } from "antd";
+import { Divider, Empty, FloatButton, message } from "antd";
 
+import emptyInboxImg from "../assets/empty-inbox-outline.svg";
 import classes from "./Category.module.less";
-import { pathToTitle } from "./route_config";
 import CardHorizontalBox from "../compenents/display/list/CardHorizontalBox";
 import FilterBox from "../compenents/form/list/FilterBox";
 import { search } from "../requests/movie";
-import useScrollStatus from "../states/useScrollStatus";
-import useReachBottom from "../states/useReachBottom";
+import useScrollStatus from "../utils/useScrollStatus";
+import useReachBottom from "../utils/useReachBottom";
+import useTabTitle from "../utils/useDocumentTitle";
 
 const filter = {
   category: null,
@@ -20,8 +21,6 @@ const filter = {
 }
 
 export async function loader() {
-  document.title = pathToTitle.get("category")
-
   let movies = null
   const response = await search(filter)
   if (response.ok) {
@@ -31,6 +30,8 @@ export async function loader() {
 }
 
 export default function CategoryTab() {
+  useTabTitle("category")
+
   const { movies } = useLoaderData()
   const [data, setData] = useState(movies)
 
@@ -86,15 +87,35 @@ export default function CategoryTab() {
           latestSubmittedFormData={latestSubmittedFiltter}
         />
       </div>
-      <Divider className={classes.divider} orientation="left">
+      <Divider
+        className={classes.divider}
+        orientation="left"
+      >
         <h1 className={classes.title}>搜索结果</h1>
       </Divider>
       <div className={classes.boxBottomofForm}>
-        <CardHorizontalBox data={data} />
+        {
+          data.length !== 0 ? (
+            <div className="content">
+              <CardHorizontalBox data={data} />
+            </div>
+          ) : (
+            <Empty
+              image={emptyInboxImg}
+              imageStyle={{
+                height: 200
+              }}
+              description="暂无符合条件的影片"
+            />
+          )
+        }
       </div>
 
       {/* Warning: findDOMNode is deprecated in StrictMode. findDOMNode was passed an instance of DomWrapper2 which is inside StrictMode. Instead, add a ref directly to the element you want to reference. */}
-      <FloatButton.BackTop type="primary" tooltip="回到顶部" />
+      <FloatButton.BackTop
+        type="primary"
+        tooltip="回到顶部"
+      />
     </>
   )
 }

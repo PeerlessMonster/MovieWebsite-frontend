@@ -1,7 +1,6 @@
 @import "../compenents/public.less";
 
 .form {
-    // height: ;
     margin-top: @marginTopFirst;
     margin-left: @sideMargin;
     margin-right: @sideMargin;
@@ -22,9 +21,14 @@
 .box-bottomof-form {
     display: flex;
     align-items: center;
-
+    justify-content: center;
     min-height: 36.1vh;
+    
     margin-top: 2vh;
-    margin-left: @sideMargin;
-    margin-right: @sideMargin;
+    :global {
+        .content {
+            margin-left: @sideMargin;
+            margin-right: @sideMargin;
+        }
+    }
 }

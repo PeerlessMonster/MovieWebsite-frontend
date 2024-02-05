@@ -3,7 +3,7 @@ import { getCategory, getRegion } from "../requests/movie";
 let categories = null
 let regions = null
 
-export async function pickMovieCategory() {
+export async function accessCategoriesCache() {
     if (!categories) {
         const response = await getCategory()
         if (response.ok) {
@@ -13,7 +13,7 @@ export async function pickMovieCategory() {
     return categories
 }
 
-export async function pickMovieRegion() {
+export async function accessRegionsCache() {
     if (!regions) {
         const response = await getRegion()
         if (response.ok) {

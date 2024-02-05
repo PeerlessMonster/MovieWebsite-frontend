@@ -49,7 +49,7 @@ export default function MoreInformationBox({ data }) {
           </Button>
           <h3 className={classes.textEndofButton}>
             {data.duration}
-            <span className="symphasize"> 分钟</span>
+            <span className="recover"> 分钟</span>
           </h3>
         </div>
 

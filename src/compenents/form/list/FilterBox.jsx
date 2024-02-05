@@ -1,17 +1,11 @@
+import { useEffect, useState } from "react";
 import { SearchOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select, Space } from "antd";
 const { useWatch } = Form;
 
 import classes from "./FilterBox.module.less";
 import { orders, search, searches, sorts } from "../../../requests/movie";
-import { pickMovieCategory, pickMovieRegion } from "../../../states/MovieInfo";
-
-const { categories, regions } = await (async function() {
-  const categories = await pickMovieCategory()
-  const regions = await pickMovieRegion()
-
-  return { categories, regions }
-})()
+import { accessCategoriesCache, accessRegionsCache } from "../../../states/MovieInfo";
 
 export default function FilterBox({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
   const [form] = Form.useForm()
@@ -30,6 +24,21 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
       setLatestSubmittedFormData(formData)
     }
   }
+
+  const [movieInfo, setMovieInfo] = useState(null)
+  useEffect(() => {
+    const startFetching = async () => {
+      const categories = await accessCategoriesCache()
+      const regions = await accessRegionsCache()
+      setMovieInfo({ categories, regions })
+    }
+
+    let ignore = false
+    if (!ignore) {
+      startFetching()
+    }
+    return () => ignore = true
+  }, [])
 
   return (
     <Form
@@ -50,7 +59,9 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
         }
         name="category"
       >
-        <Checkbox.Group options={categories} />
+        {movieInfo ? (
+        <Checkbox.Group options={movieInfo.categories} />
+        ) : null}
       </Form.Item>
 
       <Form.Item label={
@@ -58,7 +69,9 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
         }
         name="region"
       >
-        <Checkbox.Group options={regions} />
+        {movieInfo ? (
+          <Checkbox.Group options={movieInfo.regions} />
+        ) : null}
       </Form.Item>
 
       <div className={classes.selectinputBottomofCheckbox}>
