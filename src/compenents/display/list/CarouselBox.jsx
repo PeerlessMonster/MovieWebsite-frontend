@@ -2,7 +2,7 @@ import { Carousel } from "antd";
 
 import classes from "./CarouselBox.module.less";
 import { genMovieLargeImgUrl } from "../../../requests/image";
-import JumpToDetailBox from "../../control/JumpToDetailBox";
+import JumpToDetailBox from "../../interact/JumpToDetailBox";
 
 export default function CarouselBox({ data }) {
   return (

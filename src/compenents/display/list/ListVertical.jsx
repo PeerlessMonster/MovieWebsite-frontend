@@ -3,7 +3,7 @@ import { List } from "antd";
 import classes from "./ListVertical.module.less";
 import { genMovieMiddleImgUrl } from "../../../requests/image";
 import ScoreStar from "../element/ScoreStar";
-import JumpToDetailBox from "../../control/JumpToDetailBox";
+import JumpToDetailBox from "../../interact/JumpToDetailBox";
 
 export default function ListVertical({ data }) {
   return (

@@ -4,7 +4,7 @@ import { Card } from "antd";
 import classes from "./Grid.module.less";
 import { genMovieLargeImgUrl, genMovieMiddleImgUrl } from "../../../requests/image";
 import BriefIntroductionBox from "../item/BriefIntroductionBox";
-import JumpToDetailBox from "../../control/JumpToDetailBox";
+import JumpToDetailBox from "../../interact/JumpToDetailBox";
 
 export default function Grid({ data }) {
   const [mouseInsideWholeGrid, setMouseInsideWholeGrid] = useState(false)

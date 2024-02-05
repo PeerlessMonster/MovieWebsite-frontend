@@ -5,8 +5,8 @@ import { UserContext } from "../states/UserContext";
 import UpdateUserBox from "../compenents/form/list/UpdateUserBox";
 import NoVipCard from "../compenents/display/item/NoVipCard";
 import VipLevelCard from "../compenents/display/item/VipLevelCard";
-import PayModal from "../compenents/control/PayModal";
-import NoLoginUserBox from "../compenents/control/NoLoginUserBox";
+import PayModal from "../compenents/interact/PayModal";
+import NoLoginUserBox from "../compenents/interact/NoLoginUserBox";
 import useTabTitle from "../utils/useDocumentTitle";
 
 export default function UserCenterTab() {

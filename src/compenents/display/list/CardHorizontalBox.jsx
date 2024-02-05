@@ -1,6 +1,6 @@
 import { Space } from "antd";
 
-import JumpToDetailBox from "../../control/JumpToDetailBox";
+import JumpToDetailBox from "../../interact/JumpToDetailBox";
 import CardHorizontal from "../item/CardHorizontal";
 
 export default function CardHorizontalListHorizontal({ data }) {

@@ -1,6 +1,6 @@
 import classes from "./CardVerticalListHorizontal.module.css";
 import CardVertical from "../item/CardVertical";
-import JumpToDetailBox from "../../control/JumpToDetailBox";
+import JumpToDetailBox from "../../interact/JumpToDetailBox";
 
 export default function CardVerticalListHorizontal({ data }) {
   return (

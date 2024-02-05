@@ -1,6 +1,6 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Dropdown, Popconfirm, Space, message } from "antd";
+import { Avatar, Button, Dropdown, Popconfirm, Space, message, notification } from "antd";
 
 import classes from "./UserMenu.module.less"
 import LoginModal from "../form/list/LoginModal";
@@ -9,11 +9,13 @@ import { UserContext } from "../../states/UserContext";
 import { LoginModalContext } from "../../states/LoginModalContext";
 import { FrownTwoTone, SmileTwoTone } from "@ant-design/icons";
 import { tabInfo } from "../../main";
+import LoginExpireNotification from "./LoginExpireNotification";
 
 export default function UserMenu() {
   const location = useLocation()
   const navigate = useNavigate()
 
+  const loginModal = useContext(LoginModalContext)
   const user = useContext(UserContext)
   const userInfo = user.info
 
@@ -44,7 +46,14 @@ export default function UserMenu() {
     }
   }
 
-  const loginModal = useContext(LoginModalContext)
+  useEffect(() => {
+    if (userInfo) {
+      const expireTime = userInfo.sessionExpire
+
+      const timer = setTimeout(LoginExpireNotification(), expireTime)
+      return () => clearTimeout(timer)
+    }
+  }, [userInfo])
 
   const userTabInfo = tabInfo.titleToPath.get("user")
   return userInfo ? (

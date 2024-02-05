@@ -3,7 +3,7 @@ import { Menu } from "antd";
 
 import logoImg from "../../assets/video_icon.png"
 import classes from "./HeaderBar.module.css"
-import UserMenu from "../control/UserMenu";
+import UserMenu from "../interact/UserMenu";
 import { tabInfo } from "../../main";
 
 export default function HeaderBar() {
