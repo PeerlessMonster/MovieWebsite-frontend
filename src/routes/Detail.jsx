@@ -7,7 +7,7 @@ import MoreInformationBox from "../compenents/display/item/MoreInformationBox";
 import { genMovieLargeImgUrl } from "../requests/image";
 import { UserContext } from "../states/UserContext";
 import DetailCard from "../compenents/display/item/DetailCard";
-import { useDocumentTitle } from "../utils/useDocumentTitle";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 
 export async function loader({ params }) {
   let movieDetail = null
@@ -27,19 +27,8 @@ export default function DetailTab() {
   }
 
   const { movieDetail } = useLoaderData()
-  const name = movieDetail.name
-  const category = movieDetail.category
-  const releaseTime = movieDetail.releaseTime
-  const region = movieDetail.region
-  const duration = movieDetail.duration
-  const playAmount = movieDetail.playAmount
-  const score = movieDetail.score
-  const vip = movieDetail.vip
+  const { name, category, releaseTime, region, duration, playAmount, score, vip, director, scriptwriter, actor, description } = movieDetail
   const moreInfo = { name, category, releaseTime, region, duration, playAmount, score, vip }
-  const director = movieDetail.director
-  const scriptwriter = movieDetail.scriptwriter
-  const actor = movieDetail.actor
-  const description = movieDetail.description
   const detailIntro = { director, scriptwriter, actor, description }
 
   useDocumentTitle(name)

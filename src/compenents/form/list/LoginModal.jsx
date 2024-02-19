@@ -96,7 +96,7 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
           name="remember"
           valuePropName="checked"
         >
-          <Checkbox>记住我</Checkbox>
+          <Checkbox>7天内免登录</Checkbox>
         </Form.Item>
 
         <Form.Item className={classes.buttonBottomofCheckbox}>

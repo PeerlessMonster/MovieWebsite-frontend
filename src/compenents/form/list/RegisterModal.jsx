@@ -7,7 +7,7 @@ import { postRegister } from "../../../requests/user";
 import EmailInput from "../item/EmailInput";
 import NicknameInput from "../item/NicknameInput";
 import PasswordInputWithConfirm from "../item/PasswordInputWithConfirm";
-import useFormValidate from "../../../utils/useFormValidate";
+import useFormValidate from "../../../hooks/useFormValidate";
 
 export default function RegisterModal({ modalOpen, closeModal }) {
   const [form] = Form.useForm()

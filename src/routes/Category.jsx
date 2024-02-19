@@ -7,9 +7,9 @@ import classes from "./Category.module.less";
 import CardHorizontalBox from "../compenents/display/list/CardHorizontalBox";
 import FilterBox from "../compenents/form/list/FilterBox";
 import { search } from "../requests/movie";
-import useScrollStatus from "../utils/useScrollStatus";
-import useReachBottom from "../utils/useReachBottom";
-import useTabTitle from "../utils/useDocumentTitle";
+import useScrollStatus from "../hooks/useScrollStatus";
+import useReachBottom from "../hooks/useReachBottom";
+import useTabTitle from "../hooks/useDocumentTitle";
 
 const filter = {
   category: null,

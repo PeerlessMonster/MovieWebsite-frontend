@@ -11,7 +11,7 @@ import {
 import CardVerticalListHorizontal from "../compenents/display/list/CardVerticalListHorizontal";
 import ListVertical from "../compenents/display/list/ListVertical";
 import Grid from "../compenents/display/list/Grid";
-import useTabTitle from "../utils/useDocumentTitle";
+import useTabTitle from "../hooks/useDocumentTitle";
 
 export async function loader() {
   let carouselMovies = null

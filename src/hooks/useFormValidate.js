@@ -4,16 +4,16 @@ export default function useFormValidate(form, formData) {
     const [submittable, setSubmittable] = useState(false)
     useEffect(() => {
         form.validateFields({
-                validateOnly: true,
-            })
-            .then(
-                () => {
+            validateOnly: true,
+          })
+          .then(
+            () => {
                 setSubmittable(true)
-                },
-                () => {
+            },
+            () => {
                 setSubmittable(false)
-              }
-            )
+            }
+          )
     }, [formData])
 
     const submitDisabled = !submittable

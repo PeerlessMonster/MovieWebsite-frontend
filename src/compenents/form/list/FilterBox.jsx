@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import { SearchOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select, Space } from "antd";
 const { useWatch } = Form;
 
 import classes from "./FilterBox.module.less";
-import { orders, search, searches, sorts } from "../../../requests/movie";
-import { accessCategoriesCache, accessRegionsCache } from "../../../states/MovieInfo";
+import { search } from "../../../requests/movie";
+import { MovieInfoContext } from "../../../states/MovieInfoContext";
 
 export default function FilterBox({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
   const [form] = Form.useForm()
@@ -25,20 +25,8 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
     }
   }
 
-  const [movieInfo, setMovieInfo] = useState(null)
-  useEffect(() => {
-    const startFetching = async () => {
-      const categories = await accessCategoriesCache()
-      const regions = await accessRegionsCache()
-      setMovieInfo({ categories, regions })
-    }
-
-    let ignore = false
-    if (!ignore) {
-      startFetching()
-    }
-    return () => ignore = true
-  }, [])
+  const { info: movieInfo } = useContext(MovieInfoContext)
+  const { categories, regions, searches, sorts, orders } = movieInfo
 
   return (
     <Form
@@ -59,19 +47,16 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
         }
         name="category"
       >
-        {movieInfo ? (
-        <Checkbox.Group options={movieInfo.categories} />
-        ) : null}
+        <Checkbox.Group options={categories} />
       </Form.Item>
 
-      <Form.Item label={
+      <Form.Item
+        label={
           <h3 className={classes.label}>地区</h3>
         }
         name="region"
       >
-        {movieInfo ? (
-          <Checkbox.Group options={movieInfo.regions} />
-        ) : null}
+        <Checkbox.Group options={regions} />
       </Form.Item>
 
       <div className={classes.selectinputBottomofCheckbox}>
@@ -83,7 +68,6 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
             label={
               <h3 className={classes.label}>搜索字段</h3>
             }
-
             name="search"
           >
             <Select
@@ -125,7 +109,6 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
             label={
               <h3 className={classes.label}>排序字段</h3>
             }
-
             name="sort"
           >
             <Select

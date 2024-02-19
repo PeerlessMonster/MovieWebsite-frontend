@@ -7,23 +7,21 @@ import NoVipCard from "../compenents/display/item/NoVipCard";
 import VipLevelCard from "../compenents/display/item/VipLevelCard";
 import PayModal from "../compenents/interact/PayModal";
 import NoLoginUserBox from "../compenents/interact/NoLoginUserBox";
-import useTabTitle from "../utils/useDocumentTitle";
+import useTabTitle from "../hooks/useDocumentTitle";
 
 export default function UserCenterTab() {
   useTabTitle("user")
-  let Child
 
   const [modalOpen, setModalOpen] = useState(false)
 
   const user = useContext(UserContext)
   const userInfo = user.info
-  if (userInfo) {
-    const name = userInfo.name
-    const email = userInfo.email
+  
+  const Children = userInfo ? () => {
+    const { name, email, vip } = userInfo
     const data = { name, email }
-    const vip = userInfo.vip
 
-    Child = () => (
+    return (
       <div className="content">
         <div className={classes.ad}>
           {vip === 0 ? (
@@ -42,13 +40,10 @@ export default function UserCenterTab() {
         </div>
       </div>
     )
-  } else {
-    Child = () => <NoLoginUserBox />
-  }
-
+  } : () => <NoLoginUserBox />
   return (
     <div className={classes.boxWhole}>
-      <Child />
+      <Children />
     </div>
   )
 }

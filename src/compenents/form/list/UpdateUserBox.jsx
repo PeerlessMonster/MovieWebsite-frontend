@@ -8,7 +8,7 @@ import EmailInput from "../item/EmailInput";
 import NicknameInput from "../item/NicknameInput";
 import { changeInformation } from "../../../requests/user";
 import { UserContext } from "../../../states/UserContext";
-import useFormValidate from "../../../utils/useFormValidate";
+import useFormValidate from "../../../hooks/useFormValidate";
 import ChangePasswordModal from "./ChangePasswordModal";
 
 export default function UpdateUserBox({ data }) {

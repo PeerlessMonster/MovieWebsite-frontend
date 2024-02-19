@@ -6,6 +6,7 @@ import ScoreStar from "../element/ScoreStar";
 import { genMovieMiddleImgUrl } from "../../../requests/image";
 
 export default function CardVertical({ data }) {
+  const { id, name, score } = data
   return (
     <Card
       className={classes.cardWhole}
@@ -13,17 +14,17 @@ export default function CardVertical({ data }) {
         <img
           className={classes.picture}
           
-          alt={data.name}
-          src={genMovieMiddleImgUrl(data.id)}
+          alt={name}
+          src={genMovieMiddleImgUrl(id)}
         />
       }
     >
       <Meta
         title={
-          <span className={classes.title}>{data.name}</span>
+          <span className={classes.title}>{name}</span>
         }
         description={
-          <ScoreStar value={data.score} />
+          <ScoreStar value={score} />
         }
       />
     </Card>

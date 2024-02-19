@@ -9,29 +9,28 @@ export default function ListVertical({ data }) {
   return (
     <List
       className={classes.listWhole}
-
       itemLayout="horizontal"
+
       dataSource={data}
-      renderItem={(item) => (
-        <JumpToDetailBox urlParam={item.id}>
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <img
-                  className={classes.picture}
-                  src={genMovieMiddleImgUrl(item.id)}
-                />
-              }
-              title={
-                <span className={classes.title}>{item.name}</span>
-              }
-              description={
-                <ScoreStar value={item.score} />
-              }
-            />
-          </List.Item>
-        </JumpToDetailBox>
-      )}
+      renderItem={(item) => {
+        const { id, name, score } = item
+        return (
+          <JumpToDetailBox urlParam={id}>
+            <List.Item>
+              <List.Item.Meta
+                avatar={
+                  <img
+                    className={classes.picture}
+                    src={genMovieMiddleImgUrl(id)}
+                  />
+                }
+                title={<span className={classes.title}>{name}</span>}
+                description={<ScoreStar value={score} />}
+              />
+            </List.Item>
+          </JumpToDetailBox>
+        )
+      }}
     />
   )
 }

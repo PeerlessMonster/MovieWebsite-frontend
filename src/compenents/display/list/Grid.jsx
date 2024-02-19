@@ -12,11 +12,7 @@ export default function Grid({ data }) {
   return (
     <Card className={classes.gridWhole}>
       {data.map((item, index) => {
-        const name = item.name
-        const category = item.category
-        const releaseTime = item.releaseTime
-        const playAmount = item.playAmount
-        const score = item.score
+        const { id, name, category, releaseTime, playAmount, score } = item
         const briefIntro = { name, category, releaseTime, playAmount, score }
 
         const large = (index + 1) % 4 === 2
@@ -37,13 +33,13 @@ export default function Grid({ data }) {
             style={{
               backgroundImage: `url(${
                 large
-                  ? genMovieLargeImgUrl(item.id)
-                  : genMovieMiddleImgUrl(item.id)
+                  ? genMovieLargeImgUrl(id)
+                  : genMovieMiddleImgUrl(id)
               })`,
             }}
             key={index}
           >
-            <JumpToDetailBox urlParam={item.id}>
+            <JumpToDetailBox urlParam={id}>
               <div className="briefintro">
                 <BriefIntroductionBox data={briefIntro} />
               </div>

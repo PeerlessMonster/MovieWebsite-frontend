@@ -8,27 +8,26 @@ import CategoryTagList from "../element/CategoryTagList";
 import { UserContext } from "../../../states/UserContext";
 
 export default function MoreInformationBox({ data }) {
-  const needLevel = data.vip
+  const { name, category: categoryStr, region, releaseTime, duration, playAmount, score, vip: needLevel } = data
+
   const user = useContext(UserContext)
   const userInfo = user.info
-  const userLevel = userInfo.vip
+  const { vip: userLevel } = userInfo
   const able = userLevel >= needLevel
-
-  const categoryStr = data.category;
-  const categoryList = categoryStr.split("/");
-
+  
+  const categoryList = categoryStr.split("/")
   return (
     <>
       <div>
-        <h1 className={classes.title}>{data.name}</h1>
+        <h1 className={classes.title}>{name}</h1>
         <h3 className={classes.dateBottomofTitle}>
-          上映时间：{data.releaseTime}
+          上映时间：{releaseTime}
         </h3>
       </div>
 
       <div>
         <div>
-          <div className={classes.annotation}>{data.region}</div>
+          <div className={classes.annotation}>{region}</div>
           <div className={classes.taglistBottomofAnnotation}>
             <CategoryTagList value={categoryList} />
           </div>
@@ -48,15 +47,15 @@ export default function MoreInformationBox({ data }) {
             {able ? "立即播放" : "会员专享"}
           </Button>
           <h3 className={classes.textEndofButton}>
-            {data.duration}
+            {duration}
             <span className="recover"> 分钟</span>
           </h3>
         </div>
 
         <div className={classes.feedbackbox}>
           <FeedbackBox
-            playAmount={data.playAmount}
-            score={data.score}
+            playAmount={playAmount}
+            score={score}
           />
         </div>
       </div>

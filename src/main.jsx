@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import "./index.css";
-import App, { loader as appLoader } from "./App.jsx";
+import App from "./App.jsx";
 import ErrorPage from "./error-page.jsx";
 import RankTab, { loader as rankTabLoader } from "./routes/Rank.jsx";
 import CategoryTab, { loader as categoryTabLoader } from "./routes/Category.jsx";
@@ -27,7 +27,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    loader: appLoader,
     children: [
       {
         errorElement: <ErrorPage />,

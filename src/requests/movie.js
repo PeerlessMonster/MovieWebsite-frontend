@@ -59,21 +59,3 @@ export function getRegion() {
     }
     return fetchData(path, options)
 }
-
-export const searches = [
-    { value: "", label: " " },
-    { value: "name", label: "名称" },
-    { value: "director", label: "导演" },
-    { value: "scriptwriter", label: "编剧" },
-    { value: "actor", label: "主演" }
-]
-export const sorts = [
-    { value: "release_time", label: "上映时间" },
-    { value: "duration", label: "时长" },
-    { value: "play_amount", label: "播放量" },
-    { value: "score", label: "评分" }
-]
-export const orders = [
-    { value: true, label: "降序" },
-    { value: false, label: "升序" }
-]

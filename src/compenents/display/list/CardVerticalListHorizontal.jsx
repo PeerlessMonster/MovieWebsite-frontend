@@ -6,16 +6,12 @@ export default function CardVerticalListHorizontal({ data }) {
   return (
     <div className={classes.listWhole}>
       {data.map((item, index) => {
-        const id = item.id
-        const name = item.name
-        const score = item.score
-        const data = { id, name, score }
-
+        const { id } = item
         return (
           <JumpToDetailBox
             key={index}
-            urlParam={item.id}>
-            <CardVertical data={data} />
+            urlParam={id}>
+            <CardVertical data={item} />
           </JumpToDetailBox>
         )
       })}

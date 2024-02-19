@@ -1,6 +1,6 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Avatar, Button, Dropdown, Popconfirm, Space, message, notification } from "antd";
+import { Avatar, Dropdown, Popconfirm, Space, message } from "antd";
 
 import classes from "./UserMenu.module.less"
 import LoginModal from "../form/list/LoginModal";
@@ -11,9 +11,20 @@ import { FrownTwoTone, SmileTwoTone } from "@ant-design/icons";
 import { tabInfo } from "../../main";
 import LoginExpireNotification from "./LoginExpireNotification";
 
+class Tab {
+  static #_noNeedLoginTab = ["rank", "category", "user"]
+
+  static needLogin(path) {
+    return this.#_noNeedLoginTab.some((name) => {
+      const info = tabInfo.titleToPath.get(name)
+      return info.path === path
+    })
+  }
+}
+
 export default function UserMenu() {
-  const location = useLocation()
   const navigate = useNavigate()
+  const { pathname: path } = useLocation()
 
   const loginModal = useContext(LoginModalContext)
   const user = useContext(UserContext)
@@ -22,13 +33,7 @@ export default function UserMenu() {
   const logout = async () => {
     const response = await tryLogout()
     if (response.ok) {
-      const path = location.pathname
-
-      const noNeedLoginTab = ["rank", "category", "user"]
-      const redirect = !noNeedLoginTab.some((name) => {
-        const info = tabInfo.titleToPath.get(name)
-        return info.path === path
-      })
+      const redirect = !Tab.needLogin(path)
       if (redirect) {
         const indexTab = tabInfo.INDEX
         const indexTabInfo = tabInfo.titleToPath.get(indexTab)
@@ -46,14 +51,33 @@ export default function UserMenu() {
     }
   }
 
+  const [logouted, setLogouted] = useState(false)
   useEffect(() => {
     if (userInfo) {
       const expireTime = userInfo.sessionExpire
+      const timer = setTimeout((path) => {
+        LoginExpireNotification()
 
-      const timer = setTimeout(LoginExpireNotification(), expireTime)
+        const nowCleanUser = Tab.needLogin(path)
+        if (!nowCleanUser) {
+          /* 登录过期时，还在需要登录才能访问的页面，先设登出状态，稍后清除用户信息 */
+          setLogouted(true)
+        } else {
+          /* 登录过期时，不在需要登录才能访问的页面，可以立即清除用户信息 */
+          user.updateInfo(null)
+        }
+      }, expireTime)
       return () => clearTimeout(timer)
     }
   }, [userInfo])
+  /* 离开当前页面，才清除用户信息 */
+  useEffect(() => {
+    if (logouted) {
+      user.updateInfo(null)
+
+      setLogouted(false)
+    }
+  }, [path])
 
   const userTabInfo = tabInfo.titleToPath.get("user")
   return userInfo ? (
@@ -67,7 +91,7 @@ export default function UserMenu() {
             key: "info",
             label: (
               <Link
-                rel="noopener noreferrer"
+                // target="_blank"
       
                 to={userTabInfo.path}
               >
@@ -91,9 +115,7 @@ export default function UserMenu() {
                 okText="确定"
                 cancelText="取消"
               >
-                <a
-                  rel="noopener noreferrer"
-      
+                <a      
                   href="#"
                   onClick={(e) => e.preventDefault()}
                 >

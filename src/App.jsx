@@ -1,41 +1,28 @@
-import { Outlet, ScrollRestoration, useLoaderData } from "react-router-dom";
+import { Outlet, ScrollRestoration } from "react-router-dom";
 import { Layout } from "antd";
 const { Header, Content, Footer } = Layout;
 
 import classes from "./App.module.less";
 import HeaderBar from "./compenents/layout/HeaderBar";
-import { getInformation } from "./requests/user";
-import { useUser, UserContext } from "./states/UserContext";
-import { LoginModalContext, useLoginModal } from "./states/LoginModalContext";
+import { UserProvider } from "./states/UserContext";
+import { LoginModalProvider } from "./states/LoginModalContext";
 import { tabInfo } from "./main";
-
-export async function loader() {
-  let userInfo = null
-
-  const response = await getInformation()
-  if (response.ok) {
-    userInfo = await response.json()
-  }
-  return { userInfo }
-  /* 必须包花括号 */
-}
+import { MovieInfoProvider } from "./states/MovieInfoContext";
 
 export default function App() {
-  const { userInfo } = useLoaderData()
-  const user = useUser(userInfo)
-
-  const loginModal = useLoginModal()
-
   return (
-    <UserContext.Provider value={user}>
-      <LoginModalContext.Provider value={loginModal}>
+    <LoginModalProvider>
+      <UserProvider>
         <Layout className="layout">
           <Header className={classes.header}>
             <HeaderBar />
           </Header>
 
           <Content className={classes.content}>
-            <Outlet />
+            <MovieInfoProvider>
+              <Outlet />
+            </MovieInfoProvider>
+            
             <ScrollRestoration
               getKey={(location) => {
                 const restoreScrollMorethanBackTab = ["rank", "category"]
@@ -53,7 +40,7 @@ export default function App() {
             Ant Design ©2023 Created by Ant UED
           </Footer>
         </Layout>
-      </LoginModalContext.Provider>
-    </UserContext.Provider>
+      </UserProvider>
+    </LoginModalProvider>
   )
 }

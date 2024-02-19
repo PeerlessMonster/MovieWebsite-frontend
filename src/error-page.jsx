@@ -3,7 +3,7 @@ import { Button, Empty } from "antd";
 
 import notFoundImg from "./assets/404-page-not-found-two-color.svg";
 import classes from "./error.module.less";
-import useTabTitle from "./utils/useDocumentTitle";
+import useTabTitle from "./hooks/useDocumentTitle";
 
 export default function ErrorPage() {
   useTabTitle("error")

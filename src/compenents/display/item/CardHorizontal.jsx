@@ -7,9 +7,9 @@ import FeedbackBox from "../element/FeedbackBox";
 import { genMovieLargeImgUrl } from "../../../requests/image";
 
 export default function CardHorizontal({ data }) {
-  const categoryStr = data.category;
-  const categoryList = categoryStr.split("/");
+  const { id, name, category: categoryStr, releaseTime, playAmount, score } = data
 
+  const categoryList = categoryStr.split("/")
   return (
     <Card
       className={classes.cardWhole}
@@ -17,22 +17,22 @@ export default function CardHorizontal({ data }) {
         <img
           className={classes.picture}
 
-          alt={data.name}
-          src={genMovieLargeImgUrl(data.id)} />
+          alt={name}
+          src={genMovieLargeImgUrl(id)} />
       }
       actions={[
         <FeedbackBox
           key="feedback"
-          playAmount={data.playAmount}
-          score={data.score}
+          playAmount={playAmount}
+          score={score}
         />
       ]}
     >
       <Meta
         title={
           <div className={classes.titlebox}>
-            <span className={classes.title}>{data.name}</span>
-            <span className={classes.maintext}>{data.releaseTime}</span>
+            <span className={classes.title}>{name}</span>
+            <span className={classes.maintext}>{releaseTime}</span>
           </div>
         }
         description={

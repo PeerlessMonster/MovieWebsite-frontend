@@ -1,57 +1,51 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Space, Tag } from "antd";
 
-import { accessCategoriesCache } from "../../../states/MovieInfo";
+import { MovieInfoContext } from "../../../states/MovieInfoContext";
 
 class Color {
-  static #categoryToColor
+  static #_categoryToColor = null
 
-  static async accessCategoryToColorCache() {
-    if (!this.#categoryToColor) {
-      this.#categoryToColor = await this.#genCategoryToColor()
+  static init(categories) {
+    if (!this.#_categoryToColor) {
+      const map = new Map()
+
+      const colors = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"]
+      const colorNumber = colors.length
+
+      let index = 0
+      categories.map((category) => {
+        map.set(category, colors[index])
+
+        index = (index + 1) % colorNumber
+      })
+      this.#_categoryToColor = map
     }
-    return this.#categoryToColor
   }
 
-  static async #genCategoryToColor() {
-    const map = new Map()
-
-    const colors = ["magenta", "red", "volcano", "orange", "gold", "lime", "green", "cyan", "blue", "geekblue", "purple"]
-    const colorNumber = colors.length
-
-    const categories = await accessCategoriesCache()
-    let index = 0
-    categories.map((category) => {
-      map.set(category, colors[index])
-
-      index = (index + 1) % colorNumber
-    })
-    return map
+  static get(category) {
+    return this.#_categoryToColor.get(category)
   }
 }
 
 export default function CategoryTagList({ value }) {
-  const [categoryToColor, setCategoryToColor] = useState(null)
+  const [ready, setReady] = useState(false)
+
+  const { info: movieInfo } = useContext(MovieInfoContext)
   useEffect(() => {
-    const startFetching = async () => {
-      const data = await Color.accessCategoryToColorCache()
-      setCategoryToColor(data)
-    }
+    const { categories } = movieInfo
+    Color.init(categories)
 
-    let ignore = false
-    if (!ignore) {
-      startFetching()
-    }
-    return () => ignore = true
+    setReady(true)
   }, [])
-
+  
   return (
     <Space size={[0, 8]} wrap>
       {value.map((item, index) => {
         return (
           <Tag
             bordered={false}
-            color={categoryToColor?.get(item) ?? null}
+            color={ready ? Color.get(item) : null}
             key={index}
           >
             {item}
