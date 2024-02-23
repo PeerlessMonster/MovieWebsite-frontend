@@ -9,16 +9,17 @@ import { UserContext } from "../../states/UserContext";
 import { LoginModalContext } from "../../states/LoginModalContext";
 import { FrownTwoTone, SmileTwoTone } from "@ant-design/icons";
 import { tabInfo } from "../../main";
-import LoginExpireNotification from "./LoginExpireNotification";
+import LoginStatusNotification from "./LoginStatusNotification";
 
 class Tab {
   static #_noNeedLoginTab = ["rank", "category", "user"]
 
   static needLogin(path) {
-    return this.#_noNeedLoginTab.some((name) => {
+    const noNeedLogin = this.#_noNeedLoginTab.some((name) => {
       const info = tabInfo.titleToPath.get(name)
       return info.path === path
     })
+    return !noNeedLogin
   }
 }
 
@@ -30,10 +31,10 @@ export default function UserMenu() {
   const user = useContext(UserContext)
   const userInfo = user.info
 
-  const logout = async () => {
+  const submitLogout = async () => {
     const response = await tryLogout()
     if (response.ok) {
-      const redirect = !Tab.needLogin(path)
+      const redirect = Tab.needLogin(path)
       if (redirect) {
         const indexTab = tabInfo.INDEX
         const indexTabInfo = tabInfo.titleToPath.get(indexTab)
@@ -48,34 +49,68 @@ export default function UserMenu() {
         user.updateInfo(null)
         message.success("退出成功")
       }
+
+      const channel = new BroadcastChannel("login_status")
+      /* 确保退出登录时，当前页面的userInfo删除，当前页面的useEffect先清理再执行，监听才收到退出登录的消息，其他页面处理而当前页面不会处理 */
+      setTimeout(() => {
+        channel.postMessage("logout")
+      }, 0.5*1000)
     }
   }
 
-  const [logouted, setLogouted] = useState(false)
+  useEffect(() => {
+    const handler = (e) => {
+      const message = e.data
+      if (message === "logout") {
+        if (userInfo !== null) {
+          const data = { message: "您已在其他页面退出登录！" }
+          LoginStatusNotification({ data })
+
+          cleanUser()
+        }
+      } else if (message === "login") {
+        if (userInfo === null) {
+          const data = { message: "您已在其他页面登录！当前页面下请刷新即可" }
+          LoginStatusNotification({ data })
+        }
+      }
+    }
+    
+    const channel = new BroadcastChannel("login_status")
+    channel.addEventListener("message", handler)
+    return () => channel.removeEventListener("message", handler)
+  }, [userInfo])
+
+  const [sessionExpired, setSessionExpired] = useState(false)
   useEffect(() => {
     if (userInfo) {
       const expireTime = userInfo.sessionExpire
-      const timer = setTimeout((path) => {
-        LoginExpireNotification()
+      const timer = setTimeout(() => {
+        const data = { message: "您的登录状态已过期！请重新登录" }
+        LoginStatusNotification({ data })
 
-        const nowCleanUser = Tab.needLogin(path)
-        if (!nowCleanUser) {
-          /* 登录过期时，还在需要登录才能访问的页面，先设登出状态，稍后清除用户信息 */
-          setLogouted(true)
-        } else {
-          /* 登录过期时，不在需要登录才能访问的页面，可以立即清除用户信息 */
-          user.updateInfo(null)
-        }
+        cleanUser()
       }, expireTime)
       return () => clearTimeout(timer)
     }
   }, [userInfo])
+
+  const cleanUser = () => {
+    const nowCleanUser = !Tab.needLogin(path)
+    if (nowCleanUser) {
+      /* 登录过期时，不在需要登录才能访问的页面，可以立即清除用户信息 */
+      user.updateInfo(null)
+    } else {
+      /* 登录过期时，还在需要登录才能访问的页面，先设登出状态，稍后清除用户信息 */
+      setSessionExpired(true)
+    }    
+  }
   /* 离开当前页面，才清除用户信息 */
   useEffect(() => {
-    if (logouted) {
+    if (sessionExpired) {
       user.updateInfo(null)
 
-      setLogouted(false)
+      setSessionExpired(false)
     }
   }, [path])
 
@@ -91,7 +126,7 @@ export default function UserMenu() {
             key: "info",
             label: (
               <Link
-                // target="_blank"
+                target="_blank"
       
                 to={userTabInfo.path}
               >
@@ -110,7 +145,7 @@ export default function UserMenu() {
       
                 title=""
                 description="你确定要退出登录吗？"
-                onConfirm={logout}
+                onConfirm={submitLogout}
                 // onCancel={}
                 okText="确定"
                 cancelText="取消"
@@ -135,7 +170,8 @@ export default function UserMenu() {
           size="large"
           className={classes.avatar}
         >{
-          ((userInfo.name != null && userInfo.name != "") ? userInfo.name : userInfo.email)
+          ((userInfo.name != null && userInfo.name != "")
+            ? userInfo.name : userInfo.email)
             .substring(0, 4)
         }</Avatar>
       </div>

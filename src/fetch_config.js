@@ -3,7 +3,8 @@ export const baseUrl = "http://localhost:8080/"
 export default function fetchData(path, options) {
     const url = baseUrl + path
     return fetch(url, {
-        /* 让浏览器发送包含凭据的请求 */
+        // mode: "cors",
+        /* 即使是跨域的凭据（cookie），发送请求也包含 */
         credentials: "include",
         ...options
     })
