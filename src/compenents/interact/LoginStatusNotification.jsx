@@ -1,13 +1,16 @@
 import { Button, notification } from "antd";
 
-import classes from "./LoginExpireNotification.module.css";
+import classes from "./LoginStatusNotification.module.css";
 
-export default function LoginExpireNotification() {
+export default function LoginStatusNotification({ data }) {
+  const { message } = data
   notification.warning({
+    placement: "topRight",
+
     message: "通知",
     description: (
       <div>
-        <div>您的登录状态已过期，请重新登录！</div>
+        <div>{message}</div>
         <div className={classes.buttonBottomofText}>
           <Button
             type="primary"
@@ -19,7 +22,6 @@ export default function LoginExpireNotification() {
         </div>
       </div>
     ),
-    placement: "topRight",
     duration: null
   })
 }

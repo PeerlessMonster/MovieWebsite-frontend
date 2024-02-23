@@ -12,6 +12,8 @@ import useFormValidate from "../../../hooks/useFormValidate";
 import ChangePasswordModal from "./ChangePasswordModal";
 
 export default function UpdateUserBox({ data }) {
+  const { name, email } = data
+
   const [form] = Form.useForm()
   const formData = useWatch([], form)
   const formValidate = useFormValidate(form, formData)
@@ -24,7 +26,7 @@ export default function UpdateUserBox({ data }) {
 
   const user = useContext(UserContext)
   const submitSave = async () => {
-    if (formData.name !== data.name || formData.email !== data.email) {
+    if (formData.name !== name || formData.email !== email) {
       const response = await changeInformation(formData)
       if (response.ok) {
         const userInfo = user.info
@@ -66,8 +68,8 @@ export default function UpdateUserBox({ data }) {
 
         form={form}
         initialValues={{
-          name: data.name,
-          email: data.email,
+          name: name,
+          email: email,
           password: "",
         }}
         onFinish={submitSave}

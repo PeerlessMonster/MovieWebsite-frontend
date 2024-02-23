@@ -4,10 +4,10 @@ const { Header, Content, Footer } = Layout;
 
 import classes from "./App.module.less";
 import HeaderBar from "./compenents/layout/HeaderBar";
+import MovieInfoProvider from "./states/MovieInfoContext";
 import { UserProvider } from "./states/UserContext";
 import { LoginModalProvider } from "./states/LoginModalContext";
 import { tabInfo } from "./main";
-import { MovieInfoProvider } from "./states/MovieInfoContext";
 
 export default function App() {
   return (
@@ -19,9 +19,8 @@ export default function App() {
           </Header>
 
           <Content className={classes.content}>
-            <MovieInfoProvider>
-              <Outlet />
-            </MovieInfoProvider>
+            <MovieInfoProvider />
+            <Outlet />
             
             <ScrollRestoration
               getKey={(location) => {

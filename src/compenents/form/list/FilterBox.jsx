@@ -1,11 +1,59 @@
-import { useContext } from "react";
 import { SearchOutlined, UndoOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input, Select, Space } from "antd";
 const { useWatch } = Form;
 
 import classes from "./FilterBox.module.less";
 import { search } from "../../../requests/movie";
-import { MovieInfoContext } from "../../../states/MovieInfoContext";
+import { accessCache, createCache } from "../../../hooks/useLocalStorage";
+
+class FormOption {
+  static #_searches = null
+  static #_sorts = null
+  static #_orders = null
+
+  static get #searches() {
+    if (!this.#_searches) {
+      this.#_searches = createCache("searches", () => [
+        { value: "", label: " " },
+        { value: "name", label: "名称" },
+        { value: "director", label: "导演" },
+        { value: "scriptwriter", label: "编剧" },
+        { value: "actor", label: "主演" }
+      ])
+    }
+    return this.#_searches
+  }
+
+  static get #sorts() {
+    if (!this.#_sorts) {
+      this.#_sorts = createCache("sorts", () => [
+        { value: "release_time", label: "上映时间" },
+        { value: "duration", label: "时长" },
+        { value: "play_amount", label: "播放量" },
+        { value: "score", label: "评分" }
+      ])
+    }
+    return this.#_sorts
+  }
+
+  static get #orders() {
+    if (!this.#_orders) {
+      this.#_orders = createCache("orders", () => [
+        { value: true, label: "降序" },
+        { value: false, label: "升序" }
+      ])
+    }
+    return this.#_orders
+  }
+
+  static get allOptions() {
+    return {
+      searches: this.#searches,
+      sorts: this.#sorts,
+      orders: this.#orders
+    }
+  }
+}
 
 export default function FilterBox({ setData, setLatestSubmittedFormData, latestSubmittedFormData }) {
   const [form] = Form.useForm()
@@ -25,9 +73,9 @@ export default function FilterBox({ setData, setLatestSubmittedFormData, latestS
     }
   }
 
-  const { info: movieInfo } = useContext(MovieInfoContext)
-  const { categories, regions, searches, sorts, orders } = movieInfo
-
+  const categories = accessCache("categories")
+  const regions = accessCache("regions")
+  const { searches, sorts, orders } = FormOption.allOptions
   return (
     <Form
       layout="vertical"

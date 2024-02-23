@@ -46,6 +46,12 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
       user.updateInfo(data)
       message.success("登录成功")
       
+      const channel = new BroadcastChannel("login_status")
+      /* 确保登录时，当前页面的userInfo改变，当前页面的useEffect先清理再执行，监听才收到登录的消息，其他页面处理而当前页面不会处理 */
+      setTimeout(() => {
+        channel.postMessage("login")
+      }, 0.5*1000)
+
     } else {
       if (response.status === 401) {
         setErrMsg(data.message)
@@ -129,5 +135,5 @@ export default function LoginModal({ loginModalOpen, closeLoginModal }) {
         </Form.Item>
       </Form>
     </Modal>
-  );
+  )
 }

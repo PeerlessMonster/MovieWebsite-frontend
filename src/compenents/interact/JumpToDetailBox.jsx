@@ -14,7 +14,7 @@ export default function JumpToDetailBox({ children, urlParam }) {
     ? ({ children }) => (
         <Link
           className={classes.boxWhole}
-          // target="_blank"
+          target="_blank"
           
           to={url}
         >
