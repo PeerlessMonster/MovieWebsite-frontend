@@ -1,0 +1,40 @@
+@import "../compenents/public.less";
+
+.carousel-bottomof-header {
+    margin-top: @marginTopFirst;
+    margin-left: @largerSideMargin;
+    margin-right: @largerSideMargin;
+}
+
+.horizontallist-bottomof-carousel {
+    margin-top: @marginTop;
+    margin-left: @sideMargin;
+    margin-right: @sideMargin;
+}
+
+.sidebysidebox-bottomof-horizontallist {
+    margin-top: @marginTop;
+    margin-left: @sideMargin;
+    margin-right: @sideMargin;
+
+    display: flex;
+    /* 默认值 */
+    // flex-direction: row;
+    /* 默认值 */
+    // flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: stretch;
+
+    :global {
+        .verticallist {
+            flex: 1 0 auto;
+        }
+
+        .cardgrid-endof-verticallist {
+            width: 48vw;
+            flex: 3 1 auto;
+
+            margin-left: 2vw;
+        }
+    }
+}

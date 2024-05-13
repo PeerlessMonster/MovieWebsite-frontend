@@ -1,0 +1,40 @@
+@import "../../public.less";
+
+.label {
+    .heading3();
+    font-weight: bold;
+    color: @grey;
+}
+
+.selectinput-bottomof-checkbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.searchkeywordbox {
+    align-items: flex-start;
+}
+
+.sortbox {
+    align-items: flex-end;
+}
+
+.select {
+    /* 覆盖组件库样式 */
+    &:global {
+        &.ant-select.ant-select-in-form-item.ant-select-single.ant-select-show-arrow {
+            width: 10vw;
+        }
+    }
+}
+
+.input {
+    width: 48vw;
+}
+
+.button-bottomof-input {
+    margin-top: 1vh;
+
+    text-align: end;
+}

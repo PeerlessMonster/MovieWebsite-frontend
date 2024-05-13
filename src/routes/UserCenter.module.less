@@ -1,0 +1,31 @@
+@import "../compenents/public.less";
+
+@verticalSpace: 10vw;
+
+.box-whole {
+    height: @ContentExceptHeaderFooterHeight;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    :global {
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            width: 100% - @verticalSpace * 2;
+        }
+    }
+}
+
+.ad {
+    flex: 1 0 auto;
+}
+
+.form-endof-ad {
+    flex: 2 1 auto;
+
+    margin-left: @verticalSpace;
+}

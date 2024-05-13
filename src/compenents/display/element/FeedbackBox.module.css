@@ -1,0 +1,9 @@
+.box-whole {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scorestar-endof-playamount {
+    margin-left: 5em;
+}
