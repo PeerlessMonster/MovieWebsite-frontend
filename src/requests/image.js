@@ -1,8 +1,11 @@
-import { baseUrl } from "../fetch_config"
+// import { baseUrl } from "../fetch_config"
 
 const suffix = ".webp"
 
-const basePath = baseUrl + "images/"
+/* development */
+// const basePath = baseUrl + "images/"
+/* production */
+const basePath = "http://localhost/assets/"
 
 const movieBasePath = basePath + "movies/"
 export const genMovieMiddleImgUrl =
